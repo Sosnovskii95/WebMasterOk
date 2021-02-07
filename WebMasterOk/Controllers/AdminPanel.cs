@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebMasterOk.Controllers
 {
-    public class AdministrationPanelController : Controller
+    public class AdminPanel : Controller
     {
         public IActionResult Index()
         {

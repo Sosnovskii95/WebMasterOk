@@ -15,8 +15,6 @@ namespace WebMasterOk.Models.CodeFirst
 
         public string DescriptionCategory { get; set; }
 
-        public int SubCategoryId { get; set; }
-
-        public SubCategory SubCategory { get; set; }
+        public ICollection<SubCategory> SubCategories { get; set; }
     }
 }

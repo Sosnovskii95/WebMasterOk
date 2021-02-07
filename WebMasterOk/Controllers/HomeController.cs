@@ -24,12 +24,12 @@ namespace WebMasterOk.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
-            
-            
-            return Content(User.Identity.Name);
+
+
+            return View();
         }
 
         public IActionResult Privacy()

@@ -15,10 +15,10 @@ namespace WebMasterOk.Models.CodeFirst
 
         public string DescriptionSubCategory { get; set; }
 
-        public int ProductId { get; set; }
+        public int CategoryId { get; set; }
 
-        public Product Product { get; set; }
+        public Category Category { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

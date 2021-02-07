@@ -19,9 +19,10 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var staffList = await _context.Staffs.Include(p => p.Position).ToListAsync();
+            return View(staffList);
         }
 
         [HttpGet]
@@ -33,14 +34,40 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddStaff(Staff newStaff)
+        public async Task<IActionResult> AddStaff(Staff staff)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _context.Staffs.Add(newStaff);
+                _context.Staffs.Add(staff);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(staff);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditStaff(int id)
+        {
+            Staff staff = await _context.Staffs.FindAsync(id);
+
+            if (staff != null)
+            {
+                ViewBag.PositionId = new SelectList(await _context.Positions.ToListAsync(), "Id", "TitlePosition");
+
+                return View(staff);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditStaff(Staff staff)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Staffs.Update(staff);
                 await _context.SaveChangesAsync();
             }
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
