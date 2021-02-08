@@ -19,9 +19,11 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var subCategories = await _context.SubCategories.Include(c => c.Category).ToListAsync();
+
+            return View(subCategories);
         }
 
         [HttpGet]
@@ -39,8 +41,10 @@ namespace WebMasterOk.Controllers
             {
                 _context.SubCategories.Add(subCategory);
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            return null;
+            return View(subCategory);
         }
 
         [HttpGet]
@@ -55,12 +59,14 @@ namespace WebMasterOk.Controllers
         [HttpPost]
         public async Task<IActionResult> EditSubCategory(SubCategory subCategory)
         {
-            if(subCategory != null)
+            if(ModelState.IsValid)
             {
                 _context.SubCategories.Update(subCategory);
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            return null;
+            return View(subCategory);
         }
     }
 }

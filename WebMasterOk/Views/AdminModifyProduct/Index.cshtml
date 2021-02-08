@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.User>
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,25 +8,25 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="AddUser">Create New</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LoginUser)
+                @Html.DisplayNameFor(model => model.TitleProduct)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PasswordUser)
+                @Html.DisplayNameFor(model => model.DescriptionProduct)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Valid)
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Staff)
+                @Html.DisplayNameFor(model => model.Warranty)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Role)
+                @Html.DisplayNameFor(model => model.SubCategory)
             </th>
             <th></th>
         </tr>
@@ -35,22 +35,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LoginUser)
+                @Html.DisplayFor(modelItem => item.TitleProduct)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PasswordUser)
+                @Html.DisplayFor(modelItem => item.DescriptionProduct)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Valid)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Staff.FirstName)
+                @Html.DisplayFor(modelItem => item.Warranty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role.TitleRole)
+                @Html.DisplayFor(modelItem => item.SubCategory.TitleSubCategory)
             </td>
             <td>
-                <a asp-action="EditUser" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

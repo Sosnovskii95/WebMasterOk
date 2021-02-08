@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,10 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var categories = await _context.Categories.ToListAsync();
+            return View(categories);
         }
 
         [HttpGet]
@@ -32,35 +34,39 @@ namespace WebMasterOk.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory(Category category)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            return null;
+            return View(category);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditCategory(int id)
         {
             Category category = await _context.Categories.FindAsync(id);
-            if(category!=null)
+            if (category != null)
             {
                 return View(category);
             }
 
-            return null;
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         public async Task<IActionResult> EditCategory(Category category)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            return null;
+            return View(category);
         }
     }
 }
