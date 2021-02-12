@@ -60,10 +60,22 @@ namespace WebMasterOk.Data
             User adminUser = new User { Id = 1, LoginUser = adminEmail, PasswordUser = adminPassword, RoleId = adminRole.Id, StaffId = staffAdmin.Id };
             User userUser = new User { Id = 2, LoginUser = userEmail, PasswordUser = userPassword, RoleId = userRole.Id, StaffId = staffUser.Id };
 
+            Category categoryTest1 = new Category { Id = 1, TitleCategory = "Тестовая категория 1" };
+            Category categoryTest2 = new Category { Id = 2, TitleCategory = "Тестовая категория 2" };
+
+            SubCategory subCategoryTest1 = new SubCategory { Id = 1, TitleSubCategory = "Тестовая подкатегория 1", CategoryId = categoryTest1.Id };
+            SubCategory subCategoryTest2 = new SubCategory { Id = 2, TitleSubCategory = "Тестовая подкатегория 2", CategoryId = categoryTest2.Id };
+
+            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id };
+            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
+
             modelBuilder.Entity<Position>().HasData(new Position[] { positionAdmin, positionUser });
             modelBuilder.Entity<Staff>().HasData(new Staff[] { staffAdmin, staffUser });
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser, userUser });
+            modelBuilder.Entity<Category>().HasData(new Category[] { categoryTest1, categoryTest2 });
+            modelBuilder.Entity<SubCategory>().HasData(new SubCategory[] { subCategoryTest1, subCategoryTest2 });
+            modelBuilder.Entity<Product>().HasData(new Product[] { productTest1, productTest2 });
 
             base.OnModelCreating(modelBuilder);
         }

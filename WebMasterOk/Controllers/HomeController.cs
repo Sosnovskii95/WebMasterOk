@@ -9,27 +9,28 @@ using WebMasterOk.Models;
 using WebMasterOk.Models.CodeFirst;
 using WebMasterOk.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebMasterOk.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DBMasterOkContext db;
+        private readonly DBMasterOkContext _context;
 
-        public HomeController(ILogger<HomeController> logger, DBMasterOkContext db)
+        public HomeController(ILogger<HomeController> logger, DBMasterOkContext context)
         {
             _logger = logger;
-            this.db = db;
+            _context = context;
 
         }
 
         //[Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var products = await _context.Products.ToListAsync();
 
-
-            return View();
+            return View(products);
         }
 
         public IActionResult Privacy()

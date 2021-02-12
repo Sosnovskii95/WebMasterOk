@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,13 +8,14 @@ namespace WebMasterOk.Models.CodeFirst
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
 
-        public int TitleProduct { get; set; }
+        public string TitleProduct { get; set; }
 
-        public int DescriptionProduct { get; set; }
+        public string DescriptionProduct { get; set; }
 
-        public float Price { get; set; }
+        public int Price { get; set; }
 
         public int Warranty { get; set; }
 
