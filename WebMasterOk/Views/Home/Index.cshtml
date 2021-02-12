@@ -8,10 +8,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            @foreach (var p in ViewBag.Categories)
-            {
-                <h5>@p.TitleCategory</h5>
-            }
+            <div class="navbar">
+                <div class="navbar-nav">
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <div class="nav-item">
+                            <p>@Html.ActionLink(item.TitleCategory, "Index", new { item.Id })</p>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="row">
@@ -19,15 +25,13 @@
                 {
                     <div class="col-md-3">
                         <div class="card">
-                            <div class="card-header">
-                                @Html.DisplayFor(modelitem => item.TitleProduct)
-                            </div>
-                            <div class="card-body"> 
-                                @if (item.PathImage != null)
-                                {
-                                    <img class="img-thumbnail" width="75" height="75" src="@Url.Action("GetImage", "Home", new { item.Id})" />
-
-                                }
+                            @if (item.PathImage != null)
+                            {
+                                <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { item.Id})" />
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.ActionLink(item.TitleProduct, "Details", new { item.Id })</h5>
+                                <p class="card-text">@Html.DisplayFor(modelitem => item.DescriptionProduct)</p>
                             </div>
                             <div class="card-footer">
                                 @Html.DisplayFor(modelitem => item.Price)
@@ -40,3 +44,4 @@
     </div>
 </div>
 
+<span class="navbar navbar"></span>

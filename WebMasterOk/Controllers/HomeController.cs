@@ -47,6 +47,19 @@ namespace WebMasterOk.Controllers
             return null;
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+
+            if (product != null)
+            {
+                return View(product);
+            }
+
+            return null;
+        }
+
         public IActionResult Privacy()
         {
             return View();
