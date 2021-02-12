@@ -10,6 +10,7 @@ using WebMasterOk.Models.CodeFirst;
 using WebMasterOk.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace WebMasterOk.Controllers
 {
@@ -29,8 +30,21 @@ namespace WebMasterOk.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _context.Products.ToListAsync();
+            ViewBag.Categories = await _context.Categories.ToListAsync();
 
             return View(products);
+        }
+
+        public VirtualFileResult GetImage(int id)
+        {
+            Product product = _context.Products.Find(id);
+
+            if(product!=null)
+            {
+                return File(Path.Combine(product.PathImage), "application /png","1");
+            }
+
+            return null;
         }
 
         public IActionResult Privacy()

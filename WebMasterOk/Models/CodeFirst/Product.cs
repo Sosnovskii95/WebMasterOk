@@ -19,6 +19,8 @@ namespace WebMasterOk.Models.CodeFirst
 
         public int Warranty { get; set; }
 
+        public string PathImage { get; set; }
+
         public int SubCategoryId { get; set; }
 
         public SubCategory SubCategory { get; set; }

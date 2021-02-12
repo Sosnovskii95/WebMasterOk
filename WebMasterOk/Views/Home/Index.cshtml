@@ -5,56 +5,38 @@
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            @foreach (var p in ViewBag.Categories)
+            {
+                <h5>@p.TitleCategory</h5>
+            }
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                @Html.DisplayFor(modelitem => item.TitleProduct)
+                            </div>
+                            <div class="card-body"> 
+                                @if (item.PathImage != null)
+                                {
+                                    <img class="img-thumbnail" width="75" height="75" src="@Url.Action("GetImage", "Home", new { item.Id})" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TitleProduct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescriptionProduct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Warranty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubCategory)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Warranty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategory.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                                }
+                            </div>
+                            <div class="card-footer">
+                                @Html.DisplayFor(modelitem => item.Price)
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
