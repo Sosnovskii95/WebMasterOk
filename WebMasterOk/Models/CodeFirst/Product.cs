@@ -11,12 +11,16 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Название товара")]
         public string TitleProduct { get; set; }
 
+        [Display(Name = "Описание товара")]
         public string DescriptionProduct { get; set; }
 
+        [Display(Name = "Стоимость")]
         public int Price { get; set; }
 
+        [Display(Name = "Гарантийный срок")]
         public int Warranty { get; set; }
 
         public string PathImage { get; set; }

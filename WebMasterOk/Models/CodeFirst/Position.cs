@@ -11,6 +11,7 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Название должности")]
         public string TitlePosition { get; set; }
 
         public ICollection<Staff> Staffs { get; set; }

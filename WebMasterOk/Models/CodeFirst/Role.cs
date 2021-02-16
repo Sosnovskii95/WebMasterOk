@@ -11,8 +11,10 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Название роли")]
         public string TitleRole { get; set; }
 
+        [Display(Name ="Описание роли")]
         public string DescriptionRole { get; set; }
 
         public ICollection<User> Users { get; set; }

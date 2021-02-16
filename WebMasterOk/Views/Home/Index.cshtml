@@ -1,19 +1,27 @@
 ﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+@using WebMasterOk.Models.CodeFirst;
+@using System.Web;
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="navbar">
+            <div class="navbar bg-dark navbar-dark">
                 <div class="navbar-nav">
-                    @foreach (var item in ViewBag.Categories)
+                    @foreach (Category item in ViewBag.Categories)
                     {
-                        <div class="nav-item">
-                            <p>@Html.ActionLink(item.TitleCategory, "Index", new { item.Id })</p>
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">@item.TitleCategory</a>
+                            <div class="dropdown-menu">
+                                @foreach (SubCategory sub in item.SubCategories)
+                                {
+                                    @Html.ActionLink(sub.TitleSubCategory, "#", new { id = item.Id }, new { @class = "dropdown-item" })
+                                }
+                            </div>
                         </div>
                     }
                 </div>
@@ -21,10 +29,11 @@
         </div>
         <div class="col-md-9">
             <div class="row">
-                @foreach (var item in Model)
+                @foreach (Product item in Model)
                 {
                     <div class="col-md-3">
                         <div class="card">
+
                             @if (item.PathImage != null)
                             {
                                 <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { item.Id})" />
@@ -35,7 +44,16 @@
                             </div>
                             <div class="card-footer">
                                 @Html.DisplayFor(modelitem => item.Price)
+                                <div class="card-text text-md-right">
+                                    @using (Html.BeginForm("AddToCart", "Cart"))
+                                    {
+                                        @Html.Hidden("productId", item.Id)
+                                        @Html.Hidden("returnUrl", Context.Request.Path+Context.Request.QueryString)
+                                        <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                                    }
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 }

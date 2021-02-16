@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using WebMasterOk.Data;
 
 namespace WebMasterOk
@@ -29,9 +30,18 @@ namespace WebMasterOk
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/AccountClient/Login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.Name = "MyApp.Session";
+                options.Cookie.IsEssential = true;
+                options.Cookie.HttpOnly = true;
+            });
             services.AddControllersWithViews();
         }
 
@@ -55,6 +65,7 @@ namespace WebMasterOk
 
             app.UseAuthentication();    // аутентификация
             app.UseAuthorization();     // авторизация
+            app.UseSession(); //сессии
 
             app.UseEndpoints(endpoints =>
             {

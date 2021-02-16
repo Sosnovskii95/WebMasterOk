@@ -11,14 +11,15 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
+        [Display(Name ="ФИО сотрудника")]
+        public string FullNameStaff { get; set; }
 
-        public string LastName { get; set; }
-
+        [Display(Name = "Возраст")]
         public int Age { get; set; }
 
         public Position Position { get; set; }
 
+        [Display(Name = "Должность")]
         public int PositionId { get; set; }
 
         public ICollection<User> Users { get; set; }

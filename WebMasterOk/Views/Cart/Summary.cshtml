@@ -1,0 +1,12 @@
+﻿
+<div class="navbar-right">
+    @Html.ActionLink("Заказать", "Index", "Cart",
+    new { returnUrl = Context.Request.Path + Context.Request.QueryString },
+    new { @class = "btn btn-default navbar-btn" })
+</div>
+
+<div class="navbar-text navbar-right">
+    <b>Ваша корзина:</b>
+    @ViewBag.CountProduct товаров,
+    @ViewBag.TotalValue.ToString("# руб")
+</div>

@@ -27,10 +27,10 @@ namespace WebMasterOk.Controllers
         }
 
         //[Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idCategory)
         {
             var products = await _context.Products.ToListAsync();
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Categories = await _context.Categories.Include(s => s.SubCategories).ToListAsync();
 
             return View(products);
         }

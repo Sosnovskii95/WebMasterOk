@@ -11,10 +11,13 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Логин пользователя")]
         public string LoginUser { get; set; }
 
+        [Display(Name = "Пароль пользователя")]
         public string PasswordUser { get; set; }
 
+        [Display(Name = "Разрешение для входа")]
         public bool Valid { get; set; }
 
         public Staff Staff { get; set; }

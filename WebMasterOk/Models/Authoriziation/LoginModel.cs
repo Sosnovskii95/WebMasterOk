@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebMasterOk.Models.AuthoriziationUser
-{
+namespace WebMasterOk.Models.Authoriziation
+{ 
     public class LoginModel
     {
         [Required(ErrorMessage = "Не указан Login")]

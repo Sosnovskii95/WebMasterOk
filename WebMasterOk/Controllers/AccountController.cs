@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
-using WebMasterOk.Models.AuthoriziationClient;
+using WebMasterOk.Models.Authoriziation;
 using WebMasterOk.Models.CodeFirst;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebMasterOk.Controllers
 {
-    public class AccountClientController : Controller
+    public class AccountController : Controller
     {
         private readonly DBMasterOkContext _context;
 
-        public AccountClientController(DBMasterOkContext context)
+        public AccountController(DBMasterOkContext context)
         {
             _context = context;
         }
@@ -34,12 +34,23 @@ namespace WebMasterOk.Controllers
         {
             if(ModelState.IsValid)
             {
-                Client client = await _context.Clients.FirstOrDefaultAsync(e => e.EmailClient == loginModel.Email && e.PasswordClient == loginModel.Password);
+                Client client = await _context.Clients.FirstOrDefaultAsync(e => e.LoginClient == loginModel.Login && e.PasswordClient == loginModel.Password);
+                
                 if(client != null)
                 {
-                    await Authenticate(loginModel.Email);
+                    await Authenticate(client);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(nameof(Index), "Home");
+                }
+                else
+                {
+                    User user = await _context.Users.Include(r => r.Role).FirstOrDefaultAsync(e => e.LoginUser == loginModel.Login && e.PasswordUser == loginModel.Password);
+                    if(user != null)
+                    {
+                        await Authenticate(user);
+
+                        return RedirectToAction(nameof(Index), "AdminPanel");
+                    }
                 }
             }
             else
@@ -69,9 +80,9 @@ namespace WebMasterOk.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    await Authenticate(registerModel.Email);
+                    await Authenticate(client);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(nameof(Index), "Home");
                 }
                 else
                 {
@@ -81,12 +92,25 @@ namespace WebMasterOk.Controllers
             return View(registerModel);
         }
 
-        private async Task Authenticate(string email)
+        private async Task Authenticate(Client client)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, email)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, client.Id.ToString())
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        private async Task Authenticate(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.DescriptionRole)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

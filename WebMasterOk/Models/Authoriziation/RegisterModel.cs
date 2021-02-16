@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebMasterOk.Models.AuthoriziationClient
+namespace WebMasterOk.Models.Authoriziation
 {
-    public class LoginModel
+    public class RegisterModel
     {
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
@@ -14,5 +14,9 @@ namespace WebMasterOk.Models.AuthoriziationClient
         [Required(ErrorMessage = "Не указан пароль")]
         //[DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Пароль введен не верно")]
+        //[DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
     }
 }
