@@ -49,9 +49,7 @@ namespace WebMasterOk.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            ViewBag.Categories = await _context.Categories.ToListAsync();
-
+            var product = await _context.Products.Include(s => s.Stores).FirstOrDefaultAsync(p => p.Id == id);
             if (product != null)
             {
                 return View(product);

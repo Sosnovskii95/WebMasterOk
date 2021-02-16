@@ -28,5 +28,7 @@ namespace WebMasterOk.Models.CodeFirst
         public int SubCategoryId { get; set; }
 
         public SubCategory SubCategory { get; set; }
+
+        public Store Stores { get; set; }
     }
 }
