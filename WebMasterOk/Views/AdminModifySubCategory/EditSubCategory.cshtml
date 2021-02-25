@@ -25,7 +25,7 @@
                 <span asp-validation-for="DescriptionSubCategory" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PictureNameSubCategory" class="control-label"></label>
+                <label asp-for="PathImages" class="control-label"></label>
                 <div style="position:relative;">
                     <a class="btn" href="javascript:;">
                         Выберите файл...
@@ -37,7 +37,7 @@
                     </a>
                     <span class="label label-info" id="upload-file-info"></span>
                 </div>
-                @if (Model.PictureNameSubCategory == null)
+                @if (Model.PathImages == null)
                 {
                     <div class="text-info">Нет картинки</div>
                 }

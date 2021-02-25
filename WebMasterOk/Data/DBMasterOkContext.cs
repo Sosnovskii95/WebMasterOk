@@ -80,11 +80,11 @@ namespace WebMasterOk.Data
             Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
             Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
 
-            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamer_by.png", ProductId = productTest1.Id, Slider=false };
-            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamer_by.png", ProductId = productTest2.Id, Slider = false};
-            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamer_by.png", ProductId = productTest3.Id, Slider=false };
-            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamer_by.png", ProductId = productTest4.Id, Slider=false };
-            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamer_by.png", ProductId = productTest5.Id, Slider = false };
+            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamerby.png", ProductId = productTest1.Id, CategoryId = categoryTest1.Id, SubCategoryId = subCategoryTest1.Id, Slider = false };
+            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest2.Id, Slider = false };
+            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamerby.png", ProductId = productTest3.Id, CategoryId = categoryTest1.Id, Slider = false };
+            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamerby.png", ProductId = productTest4.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest1.Id, Slider = false };
+            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamerby.png", ProductId = productTest5.Id, CategoryId = categoryTest1.Id, Slider = false };
 
             PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true };
             PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true };

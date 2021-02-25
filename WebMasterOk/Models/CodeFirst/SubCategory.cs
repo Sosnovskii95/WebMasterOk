@@ -18,7 +18,7 @@ namespace WebMasterOk.Models.CodeFirst
         public string DescriptionSubCategory { get; set; }
 
         [Display(Name = "Картинка подкатегории")]
-        public string PictureNameSubCategory { get; set; }
+        public ICollection<PathImage> PathImages { get; set; }
 
         [Display(Name = "Категория")]
         public int CategoryId { get; set; }

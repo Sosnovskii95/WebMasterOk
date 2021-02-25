@@ -42,10 +42,20 @@ namespace WebMasterOk.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSubCategory(SubCategory subCategory, IFormFile pathImage)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                subCategory.PictureNameSubCategory = pathImage.FileName;
-                _context.SubCategories.Add(subCategory);
+                await _context.SubCategories.AddAsync(subCategory);
+
+                PathImage image = new PathImage
+                {
+                    NameImage = pathImage.FileName,
+                    SubCategoryId = subCategory.Id,
+                    ProductId = null,
+                    Slider = false,
+                    CategoryId = null
+                };
+                await _context.PathImages.AddAsync(image);
+
                 await _context.SaveChangesAsync();
                 await SaveFile(subCategory, pathImage);
 
@@ -66,11 +76,14 @@ namespace WebMasterOk.Controllers
         [HttpPost]
         public async Task<IActionResult> EditSubCategory(SubCategory subCategory, IFormFile pathImage)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                PathImage image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == subCategory.Id);
+                image.NameImage = pathImage.FileName;
+
                 await SaveFile(subCategory, pathImage);
-                subCategory.PictureNameSubCategory = pathImage.FileName;
                 _context.SubCategories.Update(subCategory);
+                _context.PathImages.Update(image);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));

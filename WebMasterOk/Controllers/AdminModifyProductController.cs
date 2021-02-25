@@ -46,7 +46,14 @@ namespace WebMasterOk.Controllers
             {
                 await _context.Products.AddAsync(product);
 
-                PathImage nameImage = new PathImage { NameImage = pathImage.FileName, ProductId = product.Id };
+                PathImage nameImage = new PathImage
+                {
+                    NameImage = pathImage.FileName,
+                    ProductId = product.Id,
+                    Slider = false,
+                    CategoryId = null,
+                    SubCategoryId = null
+                };
                 await _context.PathImages.AddAsync(nameImage);
 
                 await _context.SaveChangesAsync();
@@ -78,7 +85,7 @@ namespace WebMasterOk.Controllers
             if (ModelState.IsValid)
             {
                 await SaveFile(product, pathImages);
-                
+
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(p => p.ProductId == product.Id);
                 image.NameImage = pathImages.FileName;
 

@@ -17,6 +17,14 @@ namespace WebMasterOk.Models.CodeFirst
 
         public Product Product { get; set; }
 
+        public int? SubCategoryId { get; set; }
+
+        public SubCategory SubCategory { get; set; }
+
+        public int? CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
         public bool Slider { get; set; }
     }
 }

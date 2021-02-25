@@ -33,7 +33,7 @@ namespace WebMasterOk.Controllers
         //[Authorize]
         public async Task<IActionResult> Index()
         {
-            var categories = await _context.Categories.Include(s => s.SubCategories).ToListAsync();
+            var categories = await _context.Categories.Include(s => s.SubCategories).Include(p => p.PathImages).ToListAsync();
             ViewBag.Slider = await _context.PathImages.Where(s => s.Slider == true).ToListAsync();
 
             return View(categories);
@@ -49,23 +49,25 @@ namespace WebMasterOk.Controllers
                 if (typeObject.Equals("product"))
                 {
                     var temp = await _context.Products.FindAsync(id);
-                    var image = await _context.PathImages.Where(i => i.ProductId == id).FirstOrDefaultAsync();
+                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.ProductId == id);
                     currentDirectory += "Product/" + temp.Id;
                     openFileName = image.NameImage;
                 }
                 if (typeObject.Equals("subCategory"))
                 {
                     var temp = await _context.SubCategories.FindAsync(id);
+                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == id);
                     currentDirectory += "SubCategory/" + temp.Id;
-                    openFileName = temp.PictureNameSubCategory;
+                    openFileName = image.NameImage;
                 }
                 if (typeObject.Equals("category"))
                 {
-                    var temp = await _context.SubCategories.FindAsync(id);
+                    var temp = await _context.Categories.FindAsync(id);
+                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.CategoryId == id);
                     currentDirectory += "Category/" + temp.Id;
-                    openFileName = temp.PictureNameSubCategory;
+                    openFileName = image.NameImage;
                 }
-                if(typeObject.Equals("slider"))
+                if (typeObject.Equals("slider"))
                 {
                     var temp = await _context.PathImages.FindAsync(id);
                     currentDirectory += "Slider/" + temp.Id;
@@ -92,7 +94,7 @@ namespace WebMasterOk.Controllers
         [HttpGet]
         public async Task<IActionResult> ShowSubCategory(int? idCategory)
         {
-            var subCategories = await _context.SubCategories.Where(i => i.CategoryId == idCategory).ToListAsync();
+            var subCategories = await _context.SubCategories.Where(i => i.CategoryId == idCategory).Include(p => p.PathImages).ToListAsync();
 
             return View(subCategories);
         }
@@ -100,7 +102,7 @@ namespace WebMasterOk.Controllers
         [HttpGet]
         public async Task<IActionResult> ShowProduct(int? idSubCategory)
         {
-            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).ToListAsync();
+            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).Include(p=>p.PathImages).ToListAsync();
 
             return View(products);
         }

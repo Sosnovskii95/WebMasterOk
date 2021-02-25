@@ -40,9 +40,18 @@ namespace WebMasterOk.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.PictureNameCategory = pathImage.FileName;
-                await SaveFile(category, pathImage);
-                _context.Categories.Add(category);
+                await _context.Categories.AddAsync(category);
+
+                PathImage image = new PathImage
+                {
+                    NameImage = pathImage.FileName,
+                    ProductId = null,
+                    CategoryId = category.Id,
+                    SubCategoryId = null,
+                    Slider = false
+                };
+                await _context.PathImages.AddAsync(image);
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -67,8 +76,12 @@ namespace WebMasterOk.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.PictureNameCategory = pathImage.FileName;
+                PathImage image = await _context.PathImages.FirstOrDefaultAsync(c => c.CategoryId == category.Id);
+                image.NameImage = pathImage.FileName;
+
                 await SaveFile(category, pathImage);
+
+                _context.PathImages.Update(image);
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
 
