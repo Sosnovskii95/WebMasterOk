@@ -11,6 +11,8 @@ using WebMasterOk.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Security.Claims;
 
 namespace WebMasterOk.Controllers
 {
@@ -18,30 +20,59 @@ namespace WebMasterOk.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DBMasterOkContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, DBMasterOkContext context)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment appEnvironment, DBMasterOkContext context)
         {
             _logger = logger;
             _context = context;
+            _appEnvironment = appEnvironment;
 
         }
 
         //[Authorize]
-        public async Task<IActionResult> Index(int? idCategory)
+        public async Task<IActionResult> Index()
         {
-            var products = await _context.Products.ToListAsync();
-            ViewBag.Categories = await _context.Categories.Include(s => s.SubCategories).ToListAsync();
+            var categories = await _context.Categories.Include(s => s.SubCategories).ToListAsync();
+            ViewBag.Slider = await _context.PathImages.Where(s => s.Slider == true).ToListAsync();
 
-            return View(products);
+            return View(categories);
         }
 
-        public VirtualFileResult GetImage(int id)
+        public async Task<VirtualFileResult> GetImage(int id, string typeObject)
         {
-            Product product = _context.Products.Find(id);
+            string currentDirectory = "~/Content/";
+            string openFileName = null;
 
-            if(product!=null)
+            if (!String.IsNullOrEmpty(typeObject))
             {
-                return File(Path.Combine(product.PathImage), "application /png","1");
+                if (typeObject.Equals("product"))
+                {
+                    var temp = await _context.Products.FindAsync(id);
+                    var image = await _context.PathImages.Where(i => i.ProductId == id).FirstOrDefaultAsync();
+                    currentDirectory += "Product/" + temp.Id;
+                    openFileName = image.NameImage;
+                }
+                if (typeObject.Equals("subCategory"))
+                {
+                    var temp = await _context.SubCategories.FindAsync(id);
+                    currentDirectory += "SubCategory/" + temp.Id;
+                    openFileName = temp.PictureNameSubCategory;
+                }
+                if (typeObject.Equals("category"))
+                {
+                    var temp = await _context.SubCategories.FindAsync(id);
+                    currentDirectory += "Category/" + temp.Id;
+                    openFileName = temp.PictureNameSubCategory;
+                }
+                if(typeObject.Equals("slider"))
+                {
+                    var temp = await _context.PathImages.FindAsync(id);
+                    currentDirectory += "Slider/" + temp.Id;
+                    openFileName = temp.NameImage;
+                }
+
+                return File(Path.Combine(currentDirectory, openFileName), "application/png", openFileName);
             }
 
             return null;
@@ -56,6 +87,28 @@ namespace WebMasterOk.Controllers
             }
 
             return null;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowSubCategory(int? idCategory)
+        {
+            var subCategories = await _context.SubCategories.Where(i => i.CategoryId == idCategory).ToListAsync();
+
+            return View(subCategories);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowProduct(int? idSubCategory)
+        {
+            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).ToListAsync();
+
+            return View(products);
+        }
+
+        [HttpGet]
+        public IActionResult ShowFeedBack()
+        {
+            return PartialView();
         }
 
         public IActionResult Privacy()

@@ -11,7 +11,7 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
-        [Display(Name ="Название товара")]
+        [Display(Name = "Название товара")]
         public string TitleProduct { get; set; }
 
         [Display(Name = "Описание товара")]
@@ -23,7 +23,7 @@ namespace WebMasterOk.Models.CodeFirst
         [Display(Name = "Гарантийный срок")]
         public int Warranty { get; set; }
 
-        public string PathImage { get; set; }
+        public ICollection<PathImage> PathImages { get; set; }
 
         public int SubCategoryId { get; set; }
 

@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
+    
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Content\Product\TestProduct1\esteamer_by.png" />
+    <None Include="wwwroot\Content\Product\esteamer_by.png" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

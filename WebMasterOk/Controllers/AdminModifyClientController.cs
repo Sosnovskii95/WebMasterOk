@@ -8,18 +8,18 @@ using WebMasterOk.Models.CodeFirst;
 
 namespace WebMasterOk.Controllers
 {
-    public class AdminClientModifyController : Controller
+    public class AdminModifyClientController : Controller
     {
         private readonly DBMasterOkContext _context;
 
-        public AdminClientModifyController(DBMasterOkContext context)
+        public AdminModifyClientController(DBMasterOkContext context)
         {
             _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Clients.ToList());
         }
 
         [HttpGet]

@@ -30,9 +30,19 @@
                 <span asp-validation-for="EmailClient" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FullNameClient" class="control-label"></label>
-                <input asp-for="FullNameClient" class="form-control" />
-                <span asp-validation-for="FullNameClient" class="text-danger"></span>
+                <label asp-for="FamClient" class="control-label"></label>
+                <input asp-for="FamClient" class="form-control" />
+                <span asp-validation-for="FamClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstNameClient" class="control-label"></label>
+                <input asp-for="FirstNameClient" class="form-control" />
+                <span asp-validation-for="FirstNameClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastNameClient" class="control-label"></label>
+                <input asp-for="LastNameClient" class="form-control" />
+                <span asp-validation-for="LastNameClient" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumberTelephone" class="control-label"></label>
@@ -55,6 +65,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

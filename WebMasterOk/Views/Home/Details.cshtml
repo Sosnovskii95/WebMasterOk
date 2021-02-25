@@ -9,17 +9,21 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9">
-            <img class="img-fluid float-left" src="@Url.Action("GetImage", "Home", new { Model.Id})" />
+            <img class="img-fluid float-left" src="@Url.Action("GetImage", "Home", new { id=Model.Id, typeObject="product"})" />
             <span class="text-md-left">@Html.DisplayFor(model => model.TitleProduct)</span>
         </div>
         <div class="col-md-3 border-left">
-            @if (Model.Stores.Quantity > 0)
+            @if (Model.Stores != null)
             {
-                <p class="text">В наличии: @Html.DisplayFor(model=>model.Stores.Quantity)</p>
+                <p class="text">В наличии: @Html.DisplayFor(model => model.Stores.Quantity)</p>
+            }
+            else
+            {
+                <p class="text">Нет в наличии</p>
             }
             <span class="text-secondary">Код: @Html.DisplayFor(model => model.Id)</span>
-            <span class="text">Стоимость: @Html.DisplayFor(model=>model.Price)</span>
-            
+            <span class="text">Стоимость: @Html.DisplayFor(model => model.Price)</span>
+
             <div class="col border-top">
                 @using (Html.BeginForm("AddToCart", "Cart"))
                 {

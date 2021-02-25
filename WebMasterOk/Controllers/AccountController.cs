@@ -23,29 +23,37 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel, string returnUrl)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Client client = await _context.Clients.FirstOrDefaultAsync(e => e.LoginClient == loginModel.Login && e.PasswordClient == loginModel.Password);
-                
-                if(client != null)
+
+                if (client != null)
                 {
                     await Authenticate(client);
 
-                    return RedirectToAction(nameof(Index), "Home");
+                    if (!String.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Index), "ClientPersonalArea");
+                    }
                 }
                 else
                 {
                     User user = await _context.Users.Include(r => r.Role).FirstOrDefaultAsync(e => e.LoginUser == loginModel.Login && e.PasswordUser == loginModel.Password);
-                    if(user != null)
+                    if (user != null)
                     {
                         await Authenticate(user);
 
@@ -61,28 +69,39 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel registerModel)
+        public async Task<IActionResult> Register(RegisterModel registerModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                Client client = await _context.Clients.FirstOrDefaultAsync(u => u.EmailClient == registerModel.Email);
+                Client client = await _context.Clients.FirstOrDefaultAsync(u => u.LoginClient == registerModel.Login);
                 if (client == null)
                 {
-
-                    _context.Clients.Add(new Client { EmailClient = registerModel.Email, PasswordClient = registerModel.Password });
+                    client = new Client
+                    {
+                        LoginClient = registerModel.Login,
+                        EmailClient = registerModel.EmailClient,
+                        PasswordClient = registerModel.Password,
+                        Address = registerModel.Address,
+                        FamClient = registerModel.FamClient,
+                        FirstNameClient = registerModel.FirstNameClient,
+                        LastNameClient = registerModel.LastNameClient,
+                        NumberTelephone = registerModel.NumberTelephone
+                    };
+                    await _context.Clients.AddAsync(client);
 
                     await _context.SaveChangesAsync();
 
                     await Authenticate(client);
 
-                    return RedirectToAction(nameof(Index), "Home");
+                    return Redirect(returnUrl);
                 }
                 else
                 {
@@ -97,7 +116,8 @@ namespace WebMasterOk.Controllers
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, client.Id.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, client.Id.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "client")
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

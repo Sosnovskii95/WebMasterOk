@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+@using WebMasterOk.Models.CodeFirst;
+@using System.Web;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                @foreach (Product item in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="card">
+
+                            @if (item.PathImages != null)
+                            {
+                                <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id=item.Id, typeObject="product"})" />
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.ActionLink(item.TitleProduct, "Details", new { item.Id })</h5>
+                                <p class="card-text">@Html.DisplayFor(modelitem => item.DescriptionProduct)</p>
+                            </div>
+                            <div class="card-footer">
+                                @Html.DisplayFor(modelitem => item.Price)
+                                <div class="card-text text-md-right">
+                                    @using (Html.BeginForm("AddToCart", "Cart"))
+                                    {
+                                        @Html.Hidden("productId", item.Id)
+                                        @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString)
+                                        <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

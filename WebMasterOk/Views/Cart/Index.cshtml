@@ -1,5 +1,6 @@
-﻿@model IEnumerable<WebMasterOk.Models.Cart>
+﻿@model WebMasterOk.Models.CodeFirst.Client
 @using WebMasterOk.Models;
+@using WebMasterOk.Models.CodeFirst;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
@@ -16,10 +17,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Cart line in Model)
+        @foreach (Cart line in ViewBag.Cart)
         {
             <tr>
-                <td class="text-center">@line.Quantity</td>
+                <td class="text-center">
+                    @using (Html.BeginForm("AddToCart", "Cart"))
+                    {
+                        @Html.Hidden("productId", line.Product.Id)
+                        @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString)
+                        <input type="number" name="Quanity" value="@line.Quantity" />
+                        <input class="btn btn-sm btn-warning" type="submit" value="Сохранить" />
+                    }
+                </td>
                 <td class="text-left">@line.Product.TitleProduct</td>
                 <td class="text-right">@line.Product.Price.ToString("# руб")</td>
                 <td class="text-right">
@@ -46,6 +55,70 @@
     </tfoot>
 </table>
 
-<div class="text-center">
-    <a class="btn btn-primary" href="@ViewBag.ReturnUrl">Продолжить покупки</a>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ProductCheck" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                Способ оплаты
+                @Html.DropDownList("payMethod", ViewBag.PayMethods as SelectList)
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EmailClient" class="control-label"></label>
+                <input asp-for="EmailClient" class="form-control" />
+                <span asp-validation-for="EmailClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FamClient" class="control-label"></label>
+                <input asp-for="FamClient" class="form-control" />
+                <span asp-validation-for="FamClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstNameClient" class="control-label"></label>
+                <input asp-for="FirstNameClient" class="form-control" />
+                <span asp-validation-for="FirstNameClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastNameClient" class="control-label"></label>
+                <input asp-for="LastNameClient" class="form-control" />
+                <span asp-validation-for="LastNameClient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberTelephone" class="control-label"></label>
+                <input asp-for="NumberTelephone" class="form-control" />
+                <span asp-validation-for="NumberTelephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div>
+                Способ доставки
+                @Html.DropDownList("deliveryMethod", ViewBag.DeliveryMethods as SelectList)
+            </div>
+            <div class="form-group">
+                <div class="text-center">
+                    @if (ViewBag.returnUrl != null)
+                    {
+                        <a class="btn btn-primary" href="@ViewBag.returnUrl">Продолжить покупки</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="~/Home/Index">Продолжить покупки</a>
+                    }
+
+                    <input type="submit" class="btn btn-primary" value="Оформить заказ"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

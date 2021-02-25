@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace WebMasterOk.Controllers
 {
     public class AdminPanelController : Controller
     {
+        [Authorize(Roles = "admin")]
         public IActionResult Index()
         {
             return View();

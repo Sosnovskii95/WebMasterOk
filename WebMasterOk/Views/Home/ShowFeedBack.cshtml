@@ -1,0 +1,19 @@
+﻿@model WebMasterOk.Models.CodeFirst.FeedBack
+
+<h4>Обратная связь</h4>
+<hr />
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Обратная связь</h4>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(model=>model.Question)</dt>
+            <dd>@Html.DisplayFor(model => model.Question)</dd>
+
+            <dt>@Html.DisplayNameFor(model=>model.NumberFeedBack)</dt>
+            <dd>@Html.DisplayFor(model => model.NumberFeedBack)</dd>
+        </dl>
+    </div>
+</div>

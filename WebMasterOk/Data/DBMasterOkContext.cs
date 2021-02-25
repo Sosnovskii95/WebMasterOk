@@ -37,6 +37,14 @@ namespace WebMasterOk.Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<PayMethod> PayMethods { get; set; }
+
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+
+        public DbSet<FeedBack> FeedBacks { get; set; }
+
+        public DbSet<PathImage> PathImages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             string adminRoleName = "admin";
@@ -66,11 +74,30 @@ namespace WebMasterOk.Data
             SubCategory subCategoryTest1 = new SubCategory { Id = 1, TitleSubCategory = "Тестовая подкатегория 1", CategoryId = categoryTest1.Id };
             SubCategory subCategoryTest2 = new SubCategory { Id = 2, TitleSubCategory = "Тестовая подкатегория 2", CategoryId = categoryTest2.Id };
 
-            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id, PathImage = "~/Content/Product/TestProduct1/esteamer_by.png" };
-            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 1", Price = 1200, SubCategoryId = subCategoryTest1.Id, PathImage = "~/Content/Product/TestProduct1/esteamer_by.png" };
-            Product productTest3 = new Product { Id = 3, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, PathImage = "~/Content/Product/TestProduct1/esteamer_by.png" };
-            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, PathImage = "~/Content/Product/TestProduct1/esteamer_by.png" };
-            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, PathImage = "~/Content/Product/TestProduct1/esteamer_by.png" };
+            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id };
+            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 1", Price = 1200, SubCategoryId = subCategoryTest1.Id };
+            Product productTest3 = new Product { Id = 3, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
+            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
+            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
+
+            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamer_by.png", ProductId = productTest1.Id, Slider=false };
+            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamer_by.png", ProductId = productTest2.Id, Slider = false};
+            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamer_by.png", ProductId = productTest3.Id, Slider=false };
+            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamer_by.png", ProductId = productTest4.Id, Slider=false };
+            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamer_by.png", ProductId = productTest5.Id, Slider = false };
+
+            PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true };
+            PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true };
+
+            Client client = new Client { Id = 1, EmailClient = "123@gmail.com", Address = "1", FamClient = "1", FirstNameClient = "1", LastNameClient = "1", LoginClient = "1", NumberTelephone = "123", PasswordClient = "123" };
+
+            PayMethod payMethodTest1 = new PayMethod { Id = 1, TitlePayMethod = "Наличными" };
+            PayMethod payMethodTest2 = new PayMethod { Id = 2, TitlePayMethod = "Кредит или рассрочка" };
+            PayMethod payMethodTest3 = new PayMethod { Id = 3, TitlePayMethod = "Терминал" };
+
+            DeliveryMethod deliveryMethodTest1 = new DeliveryMethod { Id = 1, TitleDeliveryMethod = "Самовывоз - бесплатно" };
+            DeliveryMethod deliveryMethodTest2 = new DeliveryMethod { Id = 2, TitleDeliveryMethod = "Курьером: по Гомелю" };
+            DeliveryMethod deliveryMethodTest3 = new DeliveryMethod { Id = 3, TitleDeliveryMethod = "Курьером по Гомельской области" };
 
             modelBuilder.Entity<Position>().HasData(new Position[] { positionAdmin, positionUser });
             modelBuilder.Entity<Staff>().HasData(new Staff[] { staffAdmin, staffUser });
@@ -78,7 +105,11 @@ namespace WebMasterOk.Data
             modelBuilder.Entity<User>().HasData(new User[] { adminUser, userUser });
             modelBuilder.Entity<Category>().HasData(new Category[] { categoryTest1, categoryTest2 });
             modelBuilder.Entity<SubCategory>().HasData(new SubCategory[] { subCategoryTest1, subCategoryTest2 });
+            modelBuilder.Entity<PathImage>().HasData(new PathImage[] { pathImagesTest1, pathImagesTest2, pathImagesTest3, pathImagesTest4, pathImagesTest5, sliderTest1, sliderTest2 });
             modelBuilder.Entity<Product>().HasData(new Product[] { productTest1, productTest2, productTest3, productTest4, productTest5 });
+            modelBuilder.Entity<Client>().HasData(new Client[] { client });
+            modelBuilder.Entity<PayMethod>().HasData(new PayMethod[] { payMethodTest1, payMethodTest2, payMethodTest3 });
+            modelBuilder.Entity<DeliveryMethod>().HasData(new DeliveryMethod[] { deliveryMethodTest1, deliveryMethodTest2, deliveryMethodTest3 });
 
             base.OnModelCreating(modelBuilder);
         }

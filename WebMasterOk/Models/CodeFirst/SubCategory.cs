@@ -11,12 +11,16 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
-        [Display(Name ="Название подкатегории")]
+        [Display(Name = "Название подкатегории")]
         public string TitleSubCategory { get; set; }
 
         [Display(Name = "Описание подкатегории")]
         public string DescriptionSubCategory { get; set; }
 
+        [Display(Name = "Картинка подкатегории")]
+        public string PictureNameSubCategory { get; set; }
+
+        [Display(Name = "Категория")]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }

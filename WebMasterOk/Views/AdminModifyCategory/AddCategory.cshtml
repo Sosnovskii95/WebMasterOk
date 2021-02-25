@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddCategory">
+        <form asp-action="AddCategory" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="TitleCategory" class="control-label"></label>
@@ -24,6 +24,20 @@
                 <span asp-validation-for="DescriptionCategory" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PictureNameCategory" class="control-label"></label>
+                <div style="position:relative;">
+                    <a class="btn" href="javascript:;">
+                        Выберите файл...
+                        <input type="file" name="PathImage" size="40"
+                               style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                               onchange="$(" #upload-file-info").html($(this).val());">
+                    </a>
+                    <span class="label label-info" id="upload-file-info"></span>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -34,6 +48,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

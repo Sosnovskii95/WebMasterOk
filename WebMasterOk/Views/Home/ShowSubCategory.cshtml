@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.SubCategory>
+@using WebMasterOk.Models.CodeFirst;
+@using System.Web;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                @foreach (SubCategory item in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card">
+                            @if (item.PictureNameSubCategory != null)
+                            {
+                                <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id=item.Id, typeObject="subCategory"})" />
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.ActionLink(item.TitleSubCategory, "ShowProduct", new { idSubCategory = item.Id })</h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

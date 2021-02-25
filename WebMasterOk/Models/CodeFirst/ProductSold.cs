@@ -11,17 +11,20 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Дата и время покупки")]
         public DateTime DateSale { get; set; }
 
         public float PercentDiscont { get; set; }
 
-        public int ProductCheckId { get; set; }
+        public ICollection<ProductCheck> ProductChecks { get; set; }
 
-        public ProductCheck ProductCheck { get; set; }
-
-        public int UserId { get; set; }
+        [Display(Name ="Менеджер")]
+        public int? UserId { get; set; }
 
         public User User { get; set; }
+
+        [Display(Name ="Статус заказа")]
+        public string StateOrder { get; set; }
 
         public int ClientId { get; set; }
 

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.ProductSold>
+
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<h1>История покупок</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentDiscont)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateSale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentDiscont)
+                </td>
+                <td>
+                    @if (item.UserId == null)
+                    {
+                        @Html.Display("Ожидание")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.User.Staff.FullNameStaff)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StateOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Address)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
@@ -13,10 +16,12 @@ namespace WebMasterOk.Controllers
     public class AdminModifySubCategoryController : Controller
     {
         private readonly DBMasterOkContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public AdminModifySubCategoryController(DBMasterOkContext context)
+        public AdminModifySubCategoryController(IWebHostEnvironment appEnvironment, DBMasterOkContext context)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -35,12 +40,14 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSubCategory(SubCategory subCategory)
+        public async Task<IActionResult> AddSubCategory(SubCategory subCategory, IFormFile pathImage)
         {
             if(ModelState.IsValid)
             {
+                subCategory.PictureNameSubCategory = pathImage.FileName;
                 _context.SubCategories.Add(subCategory);
                 await _context.SaveChangesAsync();
+                await SaveFile(subCategory, pathImage);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -57,16 +64,36 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSubCategory(SubCategory subCategory)
+        public async Task<IActionResult> EditSubCategory(SubCategory subCategory, IFormFile pathImage)
         {
             if(ModelState.IsValid)
             {
+                await SaveFile(subCategory, pathImage);
+                subCategory.PictureNameSubCategory = pathImage.FileName;
                 _context.SubCategories.Update(subCategory);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
             return View(subCategory);
+        }
+
+        private async Task<bool> SaveFile(SubCategory subCategory, IFormFile formFile)
+        {
+            bool result = false;
+            string pathSaveFile = _appEnvironment.WebRootPath + "/Content/SubCategory/" + subCategory.Id;
+            if (!Directory.Exists(pathSaveFile))
+            {
+                Directory.CreateDirectory(pathSaveFile);
+            }
+            pathSaveFile += "/" + formFile.FileName;
+
+            using (var fileStream = new FileStream(pathSaveFile, FileMode.Create))
+            {
+                await formFile.CopyToAsync(fileStream);
+                result = true;
+            }
+            return result;
         }
     }
 }
