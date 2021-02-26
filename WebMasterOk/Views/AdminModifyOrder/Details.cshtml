@@ -1,0 +1,71 @@
+﻿@model WebMasterOk.Models.CodeFirst.ProductSold
+@using WebMasterOk.Models.CodeFirst;
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ProductSold</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.DateSale)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.DateSale)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.PercentDiscont)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.PercentDiscont)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.StateOrder)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StateOrder)
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.User.Staff.FullNameStaff)
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Client.FamClient)
+        </dd>
+    </dl>
+    <dl class="row">
+        @foreach (ProductCheck item in ViewBag.ProductChecks)
+        {
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.Product.TitleProduct)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.Product.TitleProduct)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.Product.Price)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.Product.Price)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -45,6 +45,7 @@ namespace WebMasterOk.Controllers
             if (ModelState.IsValid)
             {
                 await _context.SubCategories.AddAsync(subCategory);
+                await _context.SaveChangesAsync();
 
                 PathImage image = new PathImage
                 {
@@ -55,9 +56,9 @@ namespace WebMasterOk.Controllers
                     CategoryId = null
                 };
                 await _context.PathImages.AddAsync(image);
+                await SaveFile(subCategory, pathImage);
 
                 await _context.SaveChangesAsync();
-                await SaveFile(subCategory, pathImage);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -80,8 +81,8 @@ namespace WebMasterOk.Controllers
             {
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == subCategory.Id);
                 image.NameImage = pathImage.FileName;
-
                 await SaveFile(subCategory, pathImage);
+
                 _context.SubCategories.Update(subCategory);
                 _context.PathImages.Update(image);
                 await _context.SaveChangesAsync();

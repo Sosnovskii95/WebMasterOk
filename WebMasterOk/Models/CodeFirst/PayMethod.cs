@@ -11,6 +11,8 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Тип оплаты")]
+        [Required(ErrorMessage = "Тип оплаты")]
         public string TitlePayMethod { get; set; }
     }
 }

@@ -45,6 +45,7 @@ namespace WebMasterOk.Controllers
             if (ModelState.IsValid)
             {
                 await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
 
                 PathImage nameImage = new PathImage
                 {
@@ -55,9 +56,9 @@ namespace WebMasterOk.Controllers
                     SubCategoryId = null
                 };
                 await _context.PathImages.AddAsync(nameImage);
+                await SaveFile(product, pathImage);
 
                 await _context.SaveChangesAsync();
-                await SaveFile(product, pathImage);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -83,11 +84,10 @@ namespace WebMasterOk.Controllers
         public async Task<IActionResult> EditProduct(Product product, IFormFile pathImages)
         {
             if (ModelState.IsValid)
-            {
-                await SaveFile(product, pathImages);
-
+            { 
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(p => p.ProductId == product.Id);
                 image.NameImage = pathImages.FileName;
+                await SaveFile(product, pathImages);
 
                 _context.PathImages.Update(image);
                 _context.Products.Update(product);

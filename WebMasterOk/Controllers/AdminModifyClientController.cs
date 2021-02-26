@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Clients.ToList());
+            return View(await _context.Clients.ToListAsync());
         }
 
         [HttpGet]
@@ -33,7 +34,7 @@ namespace WebMasterOk.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Clients.Add(client);
+                await _context.Clients.AddAsync(client);
                 await _context.SaveChangesAsync();
             }
             return null;

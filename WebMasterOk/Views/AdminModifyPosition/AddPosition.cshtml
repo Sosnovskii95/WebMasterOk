@@ -5,13 +5,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>AddPosition</h1>
-
-<h4>Position</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddPosition">
+        <h1>Добавление должности</h1>
+        <form asp-action="AddPosition" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="TitlePosition" class="control-label"></label>
@@ -19,16 +16,11 @@
                 <span asp-validation-for="TitlePosition" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить должность" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Вернуться к списку</a>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

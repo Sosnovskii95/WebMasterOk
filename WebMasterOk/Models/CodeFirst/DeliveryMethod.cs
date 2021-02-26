@@ -11,6 +11,8 @@ namespace WebMasterOk.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Способ доставки")]
+        [Required(ErrorMessage = "Способ доставки")]
         public string TitleDeliveryMethod { get; set; }
     }
 }

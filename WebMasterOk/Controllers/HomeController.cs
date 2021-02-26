@@ -110,7 +110,20 @@ namespace WebMasterOk.Controllers
         [HttpGet]
         public IActionResult ShowFeedBack()
         {
-            return PartialView();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ShowFeedBack(FeedBack feedBack)
+        {
+            if(ModelState.IsValid)
+            {
+                feedBack.UserId = null;
+                await _context.FeedBacks.AddAsync(feedBack);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

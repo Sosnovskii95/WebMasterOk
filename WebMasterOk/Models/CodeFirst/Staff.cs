@@ -12,11 +12,14 @@ namespace WebMasterOk.Models.CodeFirst
         public int Id { get; set; }
 
         [Display(Name ="ФИО сотрудника")]
+        [Required(ErrorMessage = "ФИО сотрудника")]
         public string FullNameStaff { get; set; }
 
         [Display(Name = "Возраст")]
+        [Required(ErrorMessage = "Возраст")]
         public int Age { get; set; }
 
+        [Display(Name = "Должность")]
         public Position Position { get; set; }
 
         [Display(Name = "Должность")]

@@ -38,7 +38,7 @@ namespace WebMasterOk.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Staffs.Add(staff);
+                await _context.Staffs.AddAsync(staff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -126,9 +126,9 @@ namespace WebMasterOk.Controllers
                     PayMethodId = payMethod,
                     DeliveryMethodId = deliveryMethod
                 });
-                Store store = await _context.Stores.FirstOrDefaultAsync(p => p.ProductId == item.Product.Id);
+                /*Store store = await _context.Stores.FirstOrDefaultAsync(p => p.ProductId == item.Product.Id);
                 store.Quantity -= item.Quantity;
-                _context.Stores.Update(store);
+                _context.Stores.Update(store);*/
             }
             await _context.SaveChangesAsync();
 

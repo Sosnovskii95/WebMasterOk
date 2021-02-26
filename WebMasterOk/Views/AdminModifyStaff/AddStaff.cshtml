@@ -4,14 +4,10 @@
     ViewData["Title"] = "AddStaff";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>AddStaff</h1>
-
-<h4>Staff</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddStaff">
+    <div class="col-md-4 offset-4">
+        <h1>Добавление сотрудника</h1>
+        <form asp-action="AddStaff" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FullNameStaff" class="control-label"></label>
@@ -25,19 +21,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="PositionId" class="control-label"></label>
-                <select asp-for="PositionId" class ="form-control" asp-items="ViewBag.PositionId"></select>
+                <select asp-for="PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить сотрудника" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -4,13 +4,9 @@
     ViewData["Title"] = "AddCategory";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>AddCategory</h1>
-
-<h4>Category</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 offset-4">
+        <h1>Новая категория</h1>
         <form asp-action="AddCategory" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -38,13 +34,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+            <div>
+                <a asp-action="Index">Вернуться назад</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -20,12 +20,16 @@ namespace WebMasterOk.Models.CodeFirst
         [Display(Name = "Разрешение для входа")]
         public bool Valid { get; set; }
 
+        [Display(Name = "Сотрудник")]
         public Staff Staff { get; set; }
 
+        [Display(Name = "Сотрудник")]
         public int StaffId { get; set; }
 
+        [Display(Name = "Роль")]
         public Role Role { get; set; }
 
+        [Display(Name = "Роль")]
         public int RoleId { get; set; }
     }
 }

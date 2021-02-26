@@ -29,7 +29,7 @@ namespace WebMasterOk.Controllers
         [HttpGet]
         public async Task<IActionResult> AddUser()
         {
-            ViewBag.StaffId = new SelectList(await _context.Staffs.ToListAsync(), "Id", "FirstName");
+            ViewBag.StaffId = new SelectList(await _context.Staffs.ToListAsync(), "Id", "FullNameStaff");
             ViewBag.RoleId = new SelectList(await _context.Roles.ToListAsync(), "Id", "TitleRole");
 
             return View();
@@ -40,7 +40,7 @@ namespace WebMasterOk.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
+                await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
@@ -53,7 +53,7 @@ namespace WebMasterOk.Controllers
 
             if (user != null)
             {
-                ViewBag.StaffId = new SelectList(await _context.Staffs.ToListAsync(), "Id", "FirstName");
+                ViewBag.StaffId = new SelectList(await _context.Staffs.ToListAsync(), "Id", "FullNameStaff");
                 ViewBag.RoleId = new SelectList(await _context.Roles.ToListAsync(), "Id", "TitleRole");
 
                 return View(user);

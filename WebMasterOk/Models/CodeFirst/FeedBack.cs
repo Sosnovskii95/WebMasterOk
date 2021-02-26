@@ -15,7 +15,7 @@ namespace WebMasterOk.Models.CodeFirst
         [Required(ErrorMessage = "Укажите что Вас интересует")]
         public string Question { get; set; }
 
-        [Display(Name = "Как к вам обратиться")]
+        [Display(Name = "Номер телефона")]
         [Required(ErrorMessage = "Укажите контактный номер телефона")]
         public string NumberFeedBack { get; set; }
 

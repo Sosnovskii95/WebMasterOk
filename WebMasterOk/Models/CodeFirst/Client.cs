@@ -15,6 +15,7 @@ namespace WebMasterOk.Models.CodeFirst
         [Required(ErrorMessage = "Не указан Логин")]
         public string LoginClient { get; set; }
 
+        [Display(Name = "Пароль")]
         [Required(ErrorMessage = "Не указан пароль")]
         //[DataType(DataType.Password)]
         public string PasswordClient { get; set; }

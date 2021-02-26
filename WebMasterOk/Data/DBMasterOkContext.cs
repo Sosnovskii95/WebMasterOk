@@ -62,23 +62,23 @@ namespace WebMasterOk.Data
             Position positionAdmin = new Position { Id = 1, TitlePosition = "admin" };
             Position positionUser = new Position { Id = 2, TitlePosition = "user" };
 
-            Staff staffAdmin = new Staff { Id = 1, PositionId = positionAdmin.Id };
-            Staff staffUser = new Staff { Id = 2, PositionId = positionUser.Id };
+            Staff staffAdmin = new Staff { Id = 1, PositionId = positionAdmin.Id, Age = 21, FullNameStaff = "1" };
+            Staff staffUser = new Staff { Id = 2, PositionId = positionUser.Id, Age = 21, FullNameStaff = "1" };
 
             User adminUser = new User { Id = 1, LoginUser = adminEmail, PasswordUser = adminPassword, RoleId = adminRole.Id, StaffId = staffAdmin.Id };
             User userUser = new User { Id = 2, LoginUser = userEmail, PasswordUser = userPassword, RoleId = userRole.Id, StaffId = staffUser.Id };
 
-            Category categoryTest1 = new Category { Id = 1, TitleCategory = "Тестовая категория 1" };
-            Category categoryTest2 = new Category { Id = 2, TitleCategory = "Тестовая категория 2" };
+            Category categoryTest1 = new Category { Id = 1, TitleCategory = "Тестовая категория 1", DescriptionCategory = "1" };
+            Category categoryTest2 = new Category { Id = 2, TitleCategory = "Тестовая категория 2", DescriptionCategory = "2" };
 
-            SubCategory subCategoryTest1 = new SubCategory { Id = 1, TitleSubCategory = "Тестовая подкатегория 1", CategoryId = categoryTest1.Id };
-            SubCategory subCategoryTest2 = new SubCategory { Id = 2, TitleSubCategory = "Тестовая подкатегория 2", CategoryId = categoryTest2.Id };
+            SubCategory subCategoryTest1 = new SubCategory { Id = 1, TitleSubCategory = "Тестовая подкатегория 1", CategoryId = categoryTest1.Id, DescriptionSubCategory = "1" };
+            SubCategory subCategoryTest2 = new SubCategory { Id = 2, TitleSubCategory = "Тестовая подкатегория 2", CategoryId = categoryTest2.Id, DescriptionSubCategory = "2" };
 
-            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id };
-            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 1", Price = 1200, SubCategoryId = subCategoryTest1.Id };
-            Product productTest3 = new Product { Id = 3, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
-            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
-            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id };
+            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id, DescriptionProduct = "1" };
+            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 1", Price = 1200, SubCategoryId = subCategoryTest1.Id, DescriptionProduct = "1" };
+            Product productTest3 = new Product { Id = 3, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
+            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
+            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
 
             PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamerby.png", ProductId = productTest1.Id, CategoryId = categoryTest1.Id, SubCategoryId = subCategoryTest1.Id, Slider = false };
             PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest2.Id, Slider = false };

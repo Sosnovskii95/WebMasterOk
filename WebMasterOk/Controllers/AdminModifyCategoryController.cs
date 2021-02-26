@@ -41,6 +41,7 @@ namespace WebMasterOk.Controllers
             if (ModelState.IsValid)
             {
                 await _context.Categories.AddAsync(category);
+                await _context.SaveChangesAsync();
 
                 PathImage image = new PathImage
                 {
@@ -51,6 +52,7 @@ namespace WebMasterOk.Controllers
                     Slider = false
                 };
                 await _context.PathImages.AddAsync(image);
+                await SaveFile(category, pathImage);
 
                 await _context.SaveChangesAsync();
 
