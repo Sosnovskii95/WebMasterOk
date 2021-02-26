@@ -14,12 +14,12 @@ namespace WebMasterOk.Models.Authoriziation
 
         [Display(Name = "Пароль")]
         [Required(ErrorMessage = "Не указан пароль")]
-        //[DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "Повторите пароль")]
         [Compare("Password", ErrorMessage = "Пароль введен не верно")]
-        //[DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Электронная почта")]
