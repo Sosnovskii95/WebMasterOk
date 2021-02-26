@@ -9,14 +9,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-10">
+        <div class="col">
             <div class="row">
                 @foreach (SubCategory item in Model)
                 {
-                    <div class="col-md-4">
+                    <div class="col-md-3 pb-4">
                         <div class="card">
                             @if (item.PathImages != null)
                             {

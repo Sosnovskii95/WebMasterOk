@@ -101,7 +101,14 @@ namespace WebMasterOk.Controllers
 
                     await Authenticate(client);
 
-                    return Redirect(returnUrl);
+                    if (!String.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Index), "Home");
+                    }
                 }
                 else
                 {

@@ -29,6 +29,12 @@
         </dt>
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.StateOrder)
+            @using (Html.BeginForm("Update", "AdminModifyOrder", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.DropDownListFor(model => model.StateOrder, ViewBag.StateOrder as SelectList)
+                <input type="submit" class="btn btn-primary" value="Сохранить изменения" />
+            }
         </dd>
     </dl>
     <dl class="row">
@@ -62,6 +68,13 @@
             <dd class="col-sm-8">
                 @Html.DisplayFor(m => item.Product.Price)
             </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.QuantitySale)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.QuantitySale)
+            </dd>
+
         }
     </dl>
 </div>

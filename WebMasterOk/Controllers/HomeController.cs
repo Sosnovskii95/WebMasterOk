@@ -107,6 +107,18 @@ namespace WebMasterOk.Controllers
             return View(products);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ShowSearch(string search)
+        {
+            List<Product> listProduct = null;
+
+            if(!String.IsNullOrEmpty(search))
+            {
+                listProduct = await _context.Products.Where(i => i.TitleProduct.Contains(search)).ToListAsync();
+            }
+            return View(listProduct);
+        }
+
         [HttpGet]
         public IActionResult ShowFeedBack()
         {
@@ -135,6 +147,24 @@ namespace WebMasterOk.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Delivery()
+        {
+            return View();
+        }
+        
+        [HttpGet]
+        public IActionResult Pay()
+        {
+            return View();
         }
     }
 }

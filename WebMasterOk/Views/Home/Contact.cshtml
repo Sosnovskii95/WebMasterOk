@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<h4>Контактная информации интернет-магазина МастерОк</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            Название:
+        </p>
+        <p>
+            Директор:
+        </p>
+        <p>
+            Адрес:
+        </p>
+        <p>
+            Телефон:
+        </p>
+        <p>
+            Тип компании
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p>
+            МастерОк
+        </p>
+        <p>
+            Папов Иван Иванович
+        </p>
+        <p>
+            Беларусь, Гомель, ул. Советская , д.9.
+        </p>
+        <p>
+            +375 29 123 45 67
+        </p>
+        <p>
+            Торговая компания
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.ActionLink("Написать нам", "ShowFeedBack", "Home", new { }, new { @class = "btn btn-primary" })
+    </div>
+</div>

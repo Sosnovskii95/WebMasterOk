@@ -12,7 +12,6 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-магазин МастерОк</a>
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,13 +25,31 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Корзина</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Завершить сеанс</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Delivery">Доставка</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Pay">Оплата</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ShowFeedBack">Обратный звонок</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <div class="row">
+        <div class="col-md-4 offset-4">
+            @using(Html.BeginForm("ShowSearch", "Home"))
+            {
+                @Html.Editor("Поиск", "Поиск","search")
+                <input type="submit" value="Поиск" />
+            }
+        </div>
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -41,7 +58,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - WebMasterOk - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - МастерОк
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
