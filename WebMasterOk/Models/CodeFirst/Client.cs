@@ -17,7 +17,7 @@ namespace WebMasterOk.Models.CodeFirst
 
         [Display(Name = "Пароль")]
         [Required(ErrorMessage = "Не указан пароль")]
-        [DataType(DataType.Password)]
+        //[DataType(DataType.Password)]
         public string PasswordClient { get; set; }
 
         [Display(Name = "Электронная почта")]
@@ -26,7 +26,6 @@ namespace WebMasterOk.Models.CodeFirst
 
         [Display(Name = "Фамилия")]
         [Required(ErrorMessage = "Требуется поле Фамилия")]
-        [Range(typeof(string), "А", "Я")]
         public string FamClient { get; set; }
 
         [Display(Name = "Имя")]
