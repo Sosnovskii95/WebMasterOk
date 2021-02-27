@@ -19,8 +19,13 @@ namespace WebMasterOk.Models.CodeFirst
         [Required(ErrorMessage = "Укажите контактный номер телефона")]
         public string NumberFeedBack { get; set; }
 
+        [Display(Name = "Статус")]
+        public string StateFeedBack { get; set; }
+
+        [Display(Name = "Пользователь")]
         public int? UserId { get; set; }
 
+        [Display(Name = "Пользователь")]
         public User User { get; set; }
     }
 }

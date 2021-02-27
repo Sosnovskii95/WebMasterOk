@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.FeedBack>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Список заявок обратной связи</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberFeedBack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateFeedBack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberFeedBack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateFeedBack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Staff.FullNameStaff)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Просмотр</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

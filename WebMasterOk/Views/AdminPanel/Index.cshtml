@@ -1,6 +1,12 @@
-﻿@{ 
+﻿@model WebMasterOk.Models.CodeFirst.User
+
+@{ 
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div>
-    @Html.ActionLink("Пользователи", "GetUser")
+
+<div class="row">
+    <div class="col">
+        <h2>Добро пожаловать в административную часть сайта!</h2>
+        <h3>Вы вошли в систему как: @Html.DisplayFor(m=>m.Staff.FullNameStaff)</h3>
+    </div>
 </div>
