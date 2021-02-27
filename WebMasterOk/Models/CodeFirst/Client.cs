@@ -38,7 +38,6 @@ namespace WebMasterOk.Models.CodeFirst
 
         [Display(Name = "Номер телефона")]
         [Required(ErrorMessage = "Требуется поле Номер телефона")]
-        [Range(375250000000, 375449999999, ErrorMessage = "Неккоректный ввод телефона")]
         public string NumberTelephone { get; set; }
 
         [Display(Name = "Адрес")]
