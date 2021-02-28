@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -22,5 +23,10 @@ namespace WebMasterOk
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()
+            .UseIISIntegration()
+            .Build();
     }
 }

@@ -5,10 +5,12 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    
+    <UserSecretsId>64b1735d-4963-436a-a4a3-41c6cc261c6a</UserSecretsId>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
