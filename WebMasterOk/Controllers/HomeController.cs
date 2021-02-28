@@ -137,6 +137,7 @@ namespace WebMasterOk.Controllers
             if(ModelState.IsValid)
             {
                 feedBack.UserId = null;
+                feedBack.StateFeedBack = "В обработке";
                 await _context.FeedBacks.AddAsync(feedBack);
                 await _context.SaveChangesAsync();
             }
