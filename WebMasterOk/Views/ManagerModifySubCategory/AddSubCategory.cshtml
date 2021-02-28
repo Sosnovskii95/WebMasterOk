@@ -1,0 +1,49 @@
+﻿@model WebMasterOk.Models.CodeFirst.SubCategory
+@{
+    ViewData["Title"] = "AddSubCategory";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4 offset-4">
+        <h1>Добавление подкатегории</h1>
+        <form asp-action="AddSubCategory" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TitleSubCategory" class="control-label"></label>
+                <input asp-for="TitleSubCategory" class="form-control" />
+                <span asp-validation-for="TitleSubCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescriptionSubCategory" class="control-label"></label>
+                <input asp-for="DescriptionSubCategory" class="form-control" />
+                <span asp-validation-for="DescriptionSubCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PathImages" class="control-label"></label>
+                <div style="position:relative;">
+                    <a class="btn" href="javascript:;">
+                        Выберите файл...
+                        <input type="file" name="PathImage" size="40"
+                               style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                               onchange="$(" #upload-file-info").html($(this).val());">
+                    </a>
+                    <span class="label label-info" id="upload-file-info"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить подкатегорию" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
+    </div>
+</div>
+

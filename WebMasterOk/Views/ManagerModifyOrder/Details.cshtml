@@ -1,0 +1,81 @@
+﻿@model WebMasterOk.Models.CodeFirst.ProductSold
+@using WebMasterOk.Models.CodeFirst;
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div>
+    <h4>Заказ №@Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.DateSale)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.DateSale)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.PercentDiscont)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.PercentDiscont)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.StateOrder)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StateOrder)
+            @using (Html.BeginForm("Update", "ManagerModifyOrder", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.DropDownListFor(model => model.StateOrder, ViewBag.StateOrder as SelectList)
+                <input type="submit" class="btn btn-primary" value="Сохранить изменения" />
+            }
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.User.Staff.FullNameStaff)
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Client.FamClient)
+        </dd>
+    </dl>
+    <dl class="row">
+        @foreach (ProductCheck item in ViewBag.ProductChecks)
+        {
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.Product.TitleProduct)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.Product.TitleProduct)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.Product.Price)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.Product.Price)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(m => item.QuantitySale)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(m => item.QuantitySale)
+            </dd>
+
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Вернуться к списку</a>
+</div>

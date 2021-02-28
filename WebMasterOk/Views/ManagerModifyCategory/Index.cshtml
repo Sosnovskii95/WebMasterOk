@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Category>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<h1>Список категорий</h1>
+
+<p>
+    <a asp-action="AddCategory">Добавить новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TitleCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptionCategory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionCategory)
+                </td>
+                <td>
+                    <a asp-action="EditCategory" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

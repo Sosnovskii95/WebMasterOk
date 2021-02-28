@@ -69,5 +69,33 @@ namespace WebMasterOk.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var staff = await _context.Staffs
+                .Include(s => s.Position)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            return View(staff);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var staff = await _context.Staffs.FindAsync(id);
+            _context.Staffs.Remove(staff);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

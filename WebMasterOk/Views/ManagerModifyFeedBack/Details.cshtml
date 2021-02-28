@@ -1,0 +1,46 @@
+﻿@model WebMasterOk.Models.CodeFirst.FeedBack
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div>
+    <h4>Заявка звонка</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberFeedBack)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberFeedBack)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StateFeedBack)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StateFeedBack)
+            @using (Html.BeginForm("Update", "ManagerModifyFeedBack", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.DropDownListFor(model => model.StateFeedBack, ViewBag.StateFeedBack as SelectList)
+                <input type="submit" class="btn btn-primary" value="Сохранить изменения" />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Вернуться к списку</a>
+</div>
+

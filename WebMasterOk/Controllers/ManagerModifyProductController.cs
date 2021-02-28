@@ -13,12 +13,12 @@ using WebMasterOk.Models.CodeFirst;
 
 namespace WebMasterOk.Controllers
 {
-    public class AdminModifyProductController : Controller
+    public class ManagerModifyProductController : Controller
     {
         private readonly DBMasterOkContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
 
-        public AdminModifyProductController(IWebHostEnvironment appEnvironment, DBMasterOkContext context)
+        public ManagerModifyProductController(IWebHostEnvironment appEnvironment, DBMasterOkContext context)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -84,7 +84,7 @@ namespace WebMasterOk.Controllers
         public async Task<IActionResult> EditProduct(Product product, IFormFile pathImages)
         {
             if (ModelState.IsValid)
-            { 
+            {
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(p => p.ProductId == product.Id);
                 image.NameImage = pathImages.FileName;
                 await SaveFile(product, pathImages);
@@ -115,35 +115,6 @@ namespace WebMasterOk.Controllers
                 result = true;
             }
             return result;
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.SubCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
     }
 }

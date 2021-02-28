@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.ProductSold>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1>Список заказов</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentDiscont)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateSale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentDiscont)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Staff.FullNameStaff)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StateOrder)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Подробности</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

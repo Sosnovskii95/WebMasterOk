@@ -1,0 +1,34 @@
+﻿@model WebMasterOk.Models.CodeFirst.Role
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-4">
+        <h1>Изменение данных роли</h1>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="TitleRole" class="control-label"></label>
+                <input asp-for="TitleRole" class="form-control" />
+                <span asp-validation-for="TitleRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescriptionRole" class="control-label"></label>
+                <input asp-for="DescriptionRole" class="form-control" />
+                <span asp-validation-for="DescriptionRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index">Вернутся назад</a>
+        </div>
+    </div>
+</div>
+

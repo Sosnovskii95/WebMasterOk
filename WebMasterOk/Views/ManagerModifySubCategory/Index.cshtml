@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.SubCategory>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1>Список подкатегорий</h1>
+
+<p>
+    <a asp-action="AddSubCategory">Добавить новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TitleSubCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptionSubCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleSubCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionSubCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.TitleCategory)
+                </td>
+                <td>
+                    <a asp-action="EditSubCategory" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

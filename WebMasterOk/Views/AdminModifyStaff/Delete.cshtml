@@ -1,0 +1,40 @@
+﻿@model WebMasterOk.Models.CodeFirst.Staff
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Удаление сотрудника</h1>
+
+<h3>Вы уверены что хотите удалить данного сотрудника?</h3>
+<div>
+    <h4>Сотрудник</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullNameStaff)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullNameStaff)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Position.TitlePosition)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Вернутся назад</a>
+    </form>
+</div>

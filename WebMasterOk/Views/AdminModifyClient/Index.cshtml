@@ -68,7 +68,8 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                <a asp-action="EditClient" asp-route-id="@item.Id">Редактировать</a>
+                <a asp-action="EditClient" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }

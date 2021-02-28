@@ -82,8 +82,6 @@ namespace WebMasterOk.Controllers
                 return File(Path.Combine(currentDirectory, openFileName), "application/png", openFileName);
 
             }
-
-            return null;
         }
 
         public async Task<IActionResult> Details(int id)

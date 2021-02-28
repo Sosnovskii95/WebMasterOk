@@ -1,0 +1,32 @@
+﻿@model WebMasterOk.Models.CodeFirst.Role
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4 offset-4">
+        <form asp-action="Create">
+            <h1>Добавление роли</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TitleRole" class="control-label"></label>
+                <input asp-for="TitleRole" class="form-control" />
+                <span asp-validation-for="TitleRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescriptionRole" class="control-label"></label>
+                <input asp-for="DescriptionRole" class="form-control" />
+                <span asp-validation-for="DescriptionRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index">Вернутся назад</a>
+        </div>
+    </div>
+</div>
+

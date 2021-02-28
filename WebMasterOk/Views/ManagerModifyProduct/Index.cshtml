@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1>Список товаров</h1>
+
+<p>
+    <a asp-action="AddProduct">Добавить товар</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TitleProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptionProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Warranty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubCategory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleProduct)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionProduct)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warranty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCategory.TitleSubCategory)
+                </td>
+                <td>
+                    <a asp-action="EditProduct" asp-route-id="@item.Id">Редактирование</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

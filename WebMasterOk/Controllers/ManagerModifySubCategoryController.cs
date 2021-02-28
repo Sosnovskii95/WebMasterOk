@@ -13,12 +13,12 @@ using WebMasterOk.Models.CodeFirst;
 
 namespace WebMasterOk.Controllers
 {
-    public class AdminModifySubCategoryController : Controller
+    public class ManagerModifySubCategoryController : Controller
     {
         private readonly DBMasterOkContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
 
-        public AdminModifySubCategoryController(IWebHostEnvironment appEnvironment, DBMasterOkContext context)
+        public ManagerModifySubCategoryController(IWebHostEnvironment appEnvironment, DBMasterOkContext context)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -108,35 +108,6 @@ namespace WebMasterOk.Controllers
                 result = true;
             }
             return result;
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var subCategory = await _context.SubCategories
-                .Include(s => s.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (subCategory == null)
-            {
-                return NotFound();
-            }
-
-            return View(subCategory);
-        }
-
-        // POST: SubCategories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var subCategory = await _context.SubCategories.FindAsync(id);
-            _context.SubCategories.Remove(subCategory);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
     }
 }

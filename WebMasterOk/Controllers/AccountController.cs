@@ -55,9 +55,18 @@ namespace WebMasterOk.Controllers
                     User user = await _context.Users.Include(r => r.Role).FirstOrDefaultAsync(e => e.LoginUser == loginModel.Login && e.PasswordUser == loginModel.Password);
                     if (user != null)
                     {
-                        await Authenticate(user);
+                        if(user.Role.DescriptionRole.Equals("admin"))
+                        {
+                            await Authenticate(user);
 
-                        return RedirectToAction(nameof(Index), "AdminPanel");
+                            return RedirectToAction(nameof(Index), "AdminPanel");
+                        }
+                        else
+                        {
+                            await Authenticate(user);
+
+                            return RedirectToAction(nameof(Index), "ManagerPanel");
+                        }
                     }
                 }
             }

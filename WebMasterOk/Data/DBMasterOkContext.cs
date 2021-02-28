@@ -50,20 +50,20 @@ namespace WebMasterOk.Data
             string adminRoleName = "admin";
             string userRoleName = "user";
 
-            string adminEmail = "123@gmail.com";
+            string adminEmail = "admin";
             string adminPassword = "123456";
 
-            string userEmail = "1234@gmail.com";
+            string userEmail = "user";
             string userPassword = "123456";
 
-            Role adminRole = new Role { Id = 1, TitleRole = adminRoleName, DescriptionRole = adminRoleName };
-            Role userRole = new Role { Id = 2, TitleRole = userRoleName, DescriptionRole = userRoleName };
+            Role adminRole = new Role { Id = 1, TitleRole = "Администратор", DescriptionRole = adminRoleName };
+            Role userRole = new Role { Id = 2, TitleRole = "Пользователь", DescriptionRole = userRoleName };
 
             Position positionAdmin = new Position { Id = 1, TitlePosition = "admin" };
             Position positionUser = new Position { Id = 2, TitlePosition = "user" };
 
-            Staff staffAdmin = new Staff { Id = 1, PositionId = positionAdmin.Id, Age = 21, FullNameStaff = "1" };
-            Staff staffUser = new Staff { Id = 2, PositionId = positionUser.Id, Age = 21, FullNameStaff = "1" };
+            Staff staffAdmin = new Staff { Id = 1, PositionId = positionAdmin.Id, Age = 21, FullNameStaff = "Администратор" };
+            Staff staffUser = new Staff { Id = 2, PositionId = positionUser.Id, Age = 21, FullNameStaff = "Менеджер" };
 
             User adminUser = new User { Id = 1, LoginUser = adminEmail, PasswordUser = adminPassword, RoleId = adminRole.Id, StaffId = staffAdmin.Id };
             User userUser = new User { Id = 2, LoginUser = userEmail, PasswordUser = userPassword, RoleId = userRole.Id, StaffId = staffUser.Id };
@@ -89,7 +89,7 @@ namespace WebMasterOk.Data
             PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true };
             PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true };
 
-            Client client = new Client { Id = 1, EmailClient = "123@gmail.com", Address = "1", FamClient = "1", FirstNameClient = "1", LastNameClient = "1", LoginClient = "1", NumberTelephone = "123", PasswordClient = "123" };
+            Client client = new Client { Id = 1, EmailClient = "123@gmail.com", Address = "Гомель", FamClient = "Иванов", FirstNameClient = "Иван", LastNameClient = "Иванович", LoginClient = "ivanov", NumberTelephone = "375 44 333 33 33", PasswordClient = "123" };
 
             PayMethod payMethodTest1 = new PayMethod { Id = 1, TitlePayMethod = "Наличными" };
             PayMethod payMethodTest2 = new PayMethod { Id = 2, TitlePayMethod = "Кредит или рассрочка" };
