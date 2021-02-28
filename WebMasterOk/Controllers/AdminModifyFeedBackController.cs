@@ -33,7 +33,7 @@ namespace WebMasterOk.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var feedBack = await _context.FeedBacks.FindAsync(id);
+            var feedBack = await _context.FeedBacks.Include(x => x.User).ThenInclude(s => s.Staff).FirstOrDefaultAsync(i => i.Id == id);
 
             ViewBag.StateFeedBack = new SelectList(new SelectListItem[]
             {
@@ -51,6 +51,7 @@ namespace WebMasterOk.Controllers
             feedBack.StateFeedBack = stateFeedBack;
 
             int userId = Convert.ToInt32(User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value);
+            feedBack.UserId = userId;
             _context.FeedBacks.Update(feedBack);
             await _context.SaveChangesAsync();
 
