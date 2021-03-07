@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyOrderController : Controller
     {
@@ -21,14 +22,27 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchUser)
         {
-            var order = await _context.ProductSolds.Where(u => u.UserId == null).Include(p => p.User).ThenInclude(s => s.Staff).ToListAsync();
-            if (order.Count() <= 0)
+            ViewData["searchUser"] = searchUser;
+
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<ProductSold> orders = _context.ProductSolds.Include(u => u.User).ThenInclude(s => s.Staff);
+
+            if (orders.Where(u => u.UserId == null).Count() > 0)
             {
-                order = await _context.ProductSolds.ToListAsync();
+                orders = orders.Where(u => u.UserId == null);
             }
-            return View(order);
+            if(!String.IsNullOrEmpty(searchUser))
+            {
+                orders = orders.Where(u => u.User.Staff.FullNameStaff.Contains(searchUser));
+            }
+
+            orders = orders.OrderBy(i => i.Id);
+
+            return View(await orders.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]

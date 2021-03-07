@@ -5,8 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyRoleController : Controller
     {
@@ -17,9 +18,14 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(_context.Roles.ToList());
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<Role> roles = _context.Roles.OrderBy(i => i.Id);
+
+            return View(await roles.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]

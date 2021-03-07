@@ -7,8 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyStaffController : Controller
     {
@@ -19,10 +20,31 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchFullName, int? searchPositionId)
         {
-            var staffList = await _context.Staffs.Include(p => p.Position).ToListAsync();
-            return View(staffList);
+            ViewData["searchFullName"] = searchFullName;
+
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<Staff> staffs = _context.Staffs;
+
+            if(!String.IsNullOrEmpty(searchFullName))
+            {
+                staffs = staffs.Where(f => f.FullNameStaff.Contains(searchFullName));
+            }
+            if(searchPositionId.HasValue && searchPositionId>0)
+            {
+                staffs = staffs.Where(i => i.PositionId == searchPositionId);
+            }
+
+            staffs = staffs.Include(p => p.Position).OrderBy(i => i.Id);
+
+            var positions = await _context.Positions.ToListAsync();
+            positions.Insert(0, new Position { Id = 0, TitlePosition = "Все" });
+            ViewBag.SearchPosition = new SelectList(positions, "Id", "TitlePosition");
+
+            return View(await staffs.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]

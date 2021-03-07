@@ -9,8 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyCategoryController : Controller
     {
@@ -23,10 +24,23 @@ namespace WebMasterOk.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string searchCategory)
         {
-            var categories = await _context.Categories.ToListAsync();
-            return View(categories);
+            ViewData["searchCategory"] = searchCategory;
+
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<Category> categories = _context.Categories;
+
+            if(!String.IsNullOrEmpty(searchCategory))
+            {
+                categories = categories.Where(c => c.TitleCategory.Contains(searchCategory));
+            }
+
+            categories = categories.OrderBy(i => i.Id);
+
+            return View(await categories.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -49,7 +63,8 @@ namespace WebMasterOk.Controllers
                     ProductId = null,
                     CategoryId = category.Id,
                     SubCategoryId = null,
-                    Slider = false
+                    Slider = false,
+                    TypeImage = pathImage.ContentType
                 };
                 await _context.PathImages.AddAsync(image);
                 await SaveFile(category, pathImage);

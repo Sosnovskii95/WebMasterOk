@@ -8,8 +8,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyFeedBackController : Controller
     {
@@ -20,15 +21,27 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchUser)
         {
-            var feedBacks = await _context.FeedBacks.Where(u => u.UserId == null).ToListAsync();
-            if (feedBacks.Count() <= 0)
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            ViewData["searchUser"] = searchUser;
+
+            IQueryable<FeedBack> feedBacks = _context.FeedBacks.Include(u => u.User).ThenInclude(s => s.Staff);
+
+            if (feedBacks.Where(u => u.UserId == null).Count() > 0)
             {
-                feedBacks = await _context.FeedBacks.Include(u => u.User).ThenInclude(s => s.Staff).ToListAsync();
+                feedBacks = feedBacks.Where(u => u.UserId == null);                
+            }
+            if (!String.IsNullOrEmpty(searchUser))
+            {
+                feedBacks = feedBacks.Where(u => u.User.Staff.FullNameStaff.Contains(searchUser));
             }
 
-            return View(feedBacks);
+            feedBacks = feedBacks.OrderBy(i => i.Id);
+
+            return View(await feedBacks.ToPagedListAsync(pageNumber, pageSize));
         }
 
         public async Task<IActionResult> Details(int id)

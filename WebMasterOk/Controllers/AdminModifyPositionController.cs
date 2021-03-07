@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyPositionController : Controller
     {
@@ -18,11 +19,23 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchTitle)
         {
-            var positions = await _context.Positions.ToListAsync();
+            ViewData["searchTitle"] = searchTitle;
 
-            return View(positions);
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<Position> positions = _context.Positions;
+
+            if(!String.IsNullOrEmpty(searchTitle))
+            {
+                positions = positions.Where(c => c.TitlePosition.Contains(searchTitle));
+            }
+
+            positions = positions.OrderBy(i => i.Id);
+
+            return View(await positions.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]

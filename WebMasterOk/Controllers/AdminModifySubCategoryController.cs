@@ -10,8 +10,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifySubCategoryController : Controller
     {
@@ -24,11 +25,29 @@ namespace WebMasterOk.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchTitle, int? searchCategoryId)
         {
-            var subCategories = await _context.SubCategories.Include(c => c.Category).ToListAsync();
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
 
-            return View(subCategories);
+            IQueryable<SubCategory> subCategories = _context.SubCategories;
+
+            if (!String.IsNullOrEmpty(searchTitle))
+            {
+                subCategories = subCategories.Where(s => s.TitleSubCategory.Contains(searchTitle));
+            }
+            if (searchCategoryId.HasValue && searchCategoryId > 0)
+            {
+                subCategories = subCategories.Where(s => s.CategoryId == searchCategoryId);
+            }
+
+            subCategories = subCategories.Include(c => c.Category).OrderBy(i => i.Id);
+
+            var categories = await _context.Categories.ToListAsync();
+            categories.Insert(0, new Category { Id = 0, TitleCategory = "Все" });
+            ViewBag.Categories = new SelectList(categories, "Id", "TitleCategory");
+
+            return View(await subCategories.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -53,7 +72,8 @@ namespace WebMasterOk.Controllers
                     SubCategoryId = subCategory.Id,
                     ProductId = null,
                     Slider = false,
-                    CategoryId = null
+                    CategoryId = null,
+                    TypeImage = pathImage.ContentType
                 };
                 await _context.PathImages.AddAsync(image);
                 await SaveFile(subCategory, pathImage);
@@ -69,9 +89,14 @@ namespace WebMasterOk.Controllers
         public async Task<IActionResult> EditSubCategory(int id)
         {
             ViewBag.CategoryId = new SelectList(await _context.Categories.ToListAsync(), "Id", "TitleCategory");
-            SubCategory subCategory = await _context.SubCategories.FindAsync(id);
+            SubCategory subCategory = await _context.SubCategories.Include(p => p.PathImages).FirstOrDefaultAsync(i => i.Id == id);
 
-            return View(subCategory);
+            if (subCategory != null)
+            {
+                return View(subCategory);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

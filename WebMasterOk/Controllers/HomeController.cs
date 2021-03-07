@@ -41,47 +41,60 @@ namespace WebMasterOk.Controllers
 
         public async Task<VirtualFileResult> GetImage(int id, string typeObject)
         {
-            string currentDirectory = "~/Content/";
-            string openFileName = null;
+            string currentDirectory = "";
+            PathImage image = null;
 
             if (!String.IsNullOrEmpty(typeObject))
             {
                 if (typeObject.Equals("product"))
                 {
-                    var temp = await _context.Products.FindAsync(id);
-                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.ProductId == id);
-                    currentDirectory += "Product/" + temp.Id;
-                    openFileName = image.NameImage;
+                    image = await _context.PathImages.FirstOrDefaultAsync(i => i.ProductId == id);
+                    currentDirectory += "/Content/Product/" + id;
                 }
-                if (typeObject.Equals("subCategory"))
+                else if (typeObject.Equals("subCategory"))
                 {
-                    var temp = await _context.SubCategories.FindAsync(id);
-                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == id);
-                    currentDirectory += "SubCategory/" + temp.Id;
-                    openFileName = image.NameImage;
+                    image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == id);
+                    currentDirectory += "/Content/SubCategory/" + id;
                 }
-                if (typeObject.Equals("category"))
+                else if (typeObject.Equals("category"))
                 {
-                    var temp = await _context.Categories.FindAsync(id);
-                    var image = await _context.PathImages.FirstOrDefaultAsync(i => i.CategoryId == id);
-                    currentDirectory += "Category/" + temp.Id;
-                    openFileName = image.NameImage;
+                    image = await _context.PathImages.FirstOrDefaultAsync(i => i.CategoryId == id);
+                    currentDirectory += "/Content/Category/" + id;
                 }
-                if (typeObject.Equals("slider"))
+                else if (typeObject.Equals("slider"))
                 {
-                    var temp = await _context.PathImages.FindAsync(id);
-                    currentDirectory += "Slider/" + temp.Id;
-                    openFileName = temp.NameImage;
+                    image = await _context.PathImages.FindAsync(id);
+                    currentDirectory += "/Content/Slider/" + image.Id;
                 }
-
-                return File(Path.Combine(currentDirectory, openFileName), "application/png", openFileName);
+                else if (typeObject.Equals("maps"))
+                {
+                    image = new PathImage { NameImage = "maps.png" };
+                    currentDirectory = "~/Content/";
+                }
+            }
+            if (CheckFile(_appEnvironment.WebRootPath + currentDirectory, image.NameImage))
+            {
+                return File(Path.Combine("~" + currentDirectory, image.NameImage), image.TypeImage, image.NameImage);
             }
             else
             {
-                openFileName = "maps.png";
-                return File(Path.Combine(currentDirectory, openFileName), "application/png", openFileName);
-
+                currentDirectory = "~/Content/";
+                image = new PathImage { NameImage = "image-aborted.jpg" };
+                return File(Path.Combine(currentDirectory, image.NameImage), "image/jpg", image.NameImage);
             }
+        }
+
+        private bool CheckFile(string currentDirectory, string fileName)
+        {
+            bool result = true;
+
+
+            if (!(System.IO.File.Exists(Path.Combine(currentDirectory, fileName))))
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         public async Task<IActionResult> Details(int id)
@@ -106,7 +119,7 @@ namespace WebMasterOk.Controllers
         [HttpGet]
         public async Task<IActionResult> ShowProduct(int? idSubCategory)
         {
-            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).Include(p=>p.PathImages).ToListAsync();
+            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).Include(p => p.PathImages).ToListAsync();
 
             return View(products);
         }
@@ -116,7 +129,7 @@ namespace WebMasterOk.Controllers
         {
             List<Product> listProduct = null;
 
-            if(!String.IsNullOrEmpty(search))
+            if (!String.IsNullOrEmpty(search))
             {
                 listProduct = await _context.Products.Where(i => i.TitleProduct.Contains(search)).ToListAsync();
             }
@@ -132,7 +145,7 @@ namespace WebMasterOk.Controllers
         [HttpPost]
         public async Task<IActionResult> ShowFeedBack(FeedBack feedBack)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 feedBack.UserId = null;
                 feedBack.StateFeedBack = "В обработке";
@@ -165,7 +178,7 @@ namespace WebMasterOk.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         public IActionResult Pay()
         {

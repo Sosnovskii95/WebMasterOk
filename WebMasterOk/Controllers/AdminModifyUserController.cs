@@ -7,8 +7,9 @@ using WebMasterOk.Models.CodeFirst;
 using WebMasterOk.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Admin
 {
     public class AdminModifyUserController : Controller
     {
@@ -19,11 +20,31 @@ namespace WebMasterOk.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchFullName, int? searchRoleId)
         {
-            var users = await _context.Users.Include(r => r.Role).Include(p => p.Staff).ToListAsync();
+            ViewData["searchFullName"] = searchFullName;
 
-            return View(users);
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<User> users = _context.Users;
+
+            if(!String.IsNullOrEmpty(searchFullName))
+            {
+                users = users.Where(s => s.Staff.FullNameStaff.Contains(searchFullName));
+            }
+            if(searchRoleId.HasValue && searchRoleId>0)
+            {
+                users = users.Where(r => r.RoleId == searchRoleId);
+            }
+
+            users = users.Include(r => r.Role).Include(p => p.Staff).OrderBy(i => i.Id);
+
+            var roles = await _context.Roles.ToListAsync();
+            roles.Insert(0, new Role { Id = 0, TitleRole = "Все" });
+            ViewBag.SearchRoles = new SelectList(roles, "Id", "TitleRole");
+
+            return View(await users.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]

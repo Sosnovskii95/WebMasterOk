@@ -26,5 +26,7 @@ namespace WebMasterOk.Models.CodeFirst
         public Category Category { get; set; }
 
         public bool Slider { get; set; }
+
+        public string TypeImage { get; set; }
     }
 }

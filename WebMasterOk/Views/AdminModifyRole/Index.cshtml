@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Role>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.Role>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,27 +17,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TitleRole)
+                Название роли
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptionRole)
+                Описание роли
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleRole)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionRole)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleRole)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionRole)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

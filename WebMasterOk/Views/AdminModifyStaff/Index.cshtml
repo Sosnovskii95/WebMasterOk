@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Staff>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.Staff>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,38 +13,56 @@
 <p>
     <a asp-action="AddStaff">Добавить сотрудника</a>
 </p>
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchFullName" value="@ViewData["searchFullName"]" placeholder="ФИО сотрудника" />
+            <label>Должность</label>
+            @Html.DropDownList("searchPositionId", ViewBag.SearchPosition as SelectList)
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullNameStaff)
+                ФИО Сотрудника
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                Возраст
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Position)
+                Должность
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullNameStaff)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.TitlePosition)
-            </td>
-            <td>
-                <a asp-action="EditStaff" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullNameStaff)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position.TitlePosition)
+                </td>
+                <td>
+                    <a asp-action="EditStaff" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page,
+    searchFullName = ViewData["searchFullName"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

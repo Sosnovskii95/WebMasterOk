@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Client>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Bootstrap4.Core;
+@model IPagedList<WebMasterOk.Models.CodeFirst.Client>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,68 +13,75 @@
 <p>
     <a asp-action="AddClient">Добавить нового клиента</a>
 </p>
+
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchFullName" value="@ViewData["searchFullName"]" placeholder="ФИО клиента">
+            <input type="text" name="searchTelephone" value="@ViewData["searchTelephone"]" placeholder="Номер телефона" />
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LoginClient)
+                Логин
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PasswordClient)
+                Пароль
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmailClient)
+                Электронная почта
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FamClient)
+                ФИО клиента
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstNameClient)
+                Номер телефона
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastNameClient)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberTelephone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
+                Адрес
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoginClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FamClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstNameClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastNameClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberTelephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                <a asp-action="EditClient" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoginClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PasswordClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FamClient) @Html.DisplayFor(modelitem => item.FirstNameClient) @Html.DisplayFor(modelitem => item.LastNameClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberTelephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="EditClient" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page,
+    searchFullName = ViewData["searchFullName"],
+    searchTelephone = ViewData["searchTelephone"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.ProductSold>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.ProductSold>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,21 +9,25 @@
 }
 
 <h1>Список заказов</h1>
-
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchUser" value="@ViewData["searchUser"]" placeholder="ФИО сотрудника">
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateSale)
+                Дата и время заказа
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PercentDiscont)
+                Менеджер
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StateOrder)
+                Статус заказа
             </th>
             <th></th>
         </tr>
@@ -30,9 +37,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DateSale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PercentDiscont)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Staff.FullNameStaff)
@@ -47,3 +51,10 @@
 }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page=>Url.Action(nameof(Index), new
+{
+    page=page,
+    searchUser = ViewData["searchUser"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

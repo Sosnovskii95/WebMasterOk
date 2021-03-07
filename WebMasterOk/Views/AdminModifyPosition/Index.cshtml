@@ -1,4 +1,8 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Position>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@model IPagedList<WebMasterOk.Models.CodeFirst.Position>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,25 +14,41 @@
 <p>
     <a asp-action="AddPosition">Добавить должность</a>
 </p>
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchTitle" value="@ViewData["searchTitle"]" placeholder="Название должности" />
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TitlePosition)
+                Название должности
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitlePosition)
-            </td>
-            <td>
-                <a asp-action="EditPosition" asp-route-id="@item.Id">Редактировать</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitlePosition)
+                </td>
+                <td>
+                    <a asp-action="EditPosition" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page,
+    searchTitle = ViewData["searchTitle"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

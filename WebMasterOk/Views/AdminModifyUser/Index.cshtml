@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.User>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.User>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,49 +13,61 @@
 <p>
     <a asp-action="AddUser">Добавить пользователя</a>
 </p>
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchFullName" value="@ViewData["searchFullName"]" placeholder="ФИО сотрудника" />
+            <label>Роль</label>
+            @Html.DropDownList("searchRoleId", ViewBag.SearchRoles as SelectList)
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LoginUser)
+                Логин
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PasswordUser)
+                Доступ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Valid)
+                Сотрудник
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Staff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
+                Роль
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoginUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Valid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff.FullNameStaff)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.TitleRole)
-            </td>
-            <td>
-                <a asp-action="EditUser" asp-route-id="@item.Id">Редактировать</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoginUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staff.FullNameStaff)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.TitleRole)
+                </td>
+                <td>
+                    <a asp-action="EditUser" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page,
+    searchFullName = ViewData["searchFullName"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

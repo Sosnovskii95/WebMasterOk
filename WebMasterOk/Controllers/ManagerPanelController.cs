@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebMasterOk.Data;
 using WebMasterOk.Models.CodeFirst;
 
-namespace WebMasterOk.Controllers
+namespace WebMasterOk.Controllers.Manager
 {
     public class ManagerPanelController : Controller
     {

@@ -1,4 +1,8 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@model IPagedList<WebMasterOk.Models.CodeFirst.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,49 +14,69 @@
 <p>
     <a asp-action="AddProduct">Добавить товар</a>
 </p>
+
+<div class="row">
+    <div class="col">
+        <form>
+            <input type="text" name="searchTitle" value="@ViewData["searchTitle"]" placeholder="Название продукта" />
+            <label>Фильтр подкатегорий</label>
+            @Html.DropDownList("searchSubCategoryId", ViewBag.SubCategories as SelectList)
+            <input type="submit" value="Поиск" />
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TitleProduct)
+                Название продукта
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptionProduct)
+                Описание продукта
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Стоимость
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Warranty)
+                Гарантия
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubCategory)
+                Подкатегория
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Warranty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategory.TitleSubCategory)
-            </td>
-            <td>
-                <a asp-action="EditProduct" asp-route-id="@item.Id">Редактирование</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleProduct)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionProduct)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warranty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCategory.TitleSubCategory)
+                </td>
+                <td>
+                    <a asp-action="EditProduct" asp-route-id="@item.Id">Редактирование</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+{
+    page = page,
+    searchTitle = ViewData["searchTitle"]
+}), Bootstrap4PagedListRenderOptions.Default)
+</div>

@@ -80,14 +80,14 @@ namespace WebMasterOk.Data
             Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
             Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
 
-            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamerby.png", ProductId = productTest1.Id, CategoryId = categoryTest1.Id, SubCategoryId = subCategoryTest1.Id, Slider = false };
-            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest2.Id, Slider = false };
-            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamerby.png", ProductId = productTest3.Id, CategoryId = categoryTest1.Id, Slider = false };
-            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamerby.png", ProductId = productTest4.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest1.Id, Slider = false };
-            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamerby.png", ProductId = productTest5.Id, CategoryId = categoryTest1.Id, Slider = false };
+            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamerby.png", ProductId = productTest1.Id, CategoryId = categoryTest1.Id, SubCategoryId = subCategoryTest1.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest2.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamerby.png", ProductId = productTest3.Id, CategoryId = categoryTest1.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamerby.png", ProductId = productTest4.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest1.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamerby.png", ProductId = productTest5.Id, CategoryId = categoryTest1.Id, Slider = false, TypeImage = "image/png" };
 
-            PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true };
-            PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true };
+            PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true, TypeImage = "image/jpeg" };
+            PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true, TypeImage = "image/jpeg" };
 
             Client client = new Client { Id = 1, EmailClient = "123@gmail.com", Address = "Гомель", FamClient = "Иванов", FirstNameClient = "Иван", LastNameClient = "Иванович", LoginClient = "ivanov", NumberTelephone = "375 44 333 33 33", PasswordClient = "123" };
 
