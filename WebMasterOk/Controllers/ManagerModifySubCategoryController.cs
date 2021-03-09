@@ -100,11 +100,14 @@ namespace WebMasterOk.Controllers.Manager
             if (ModelState.IsValid)
             {
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(i => i.SubCategoryId == subCategory.Id);
-                image.NameImage = pathImage.FileName;
-                await SaveFile(subCategory, pathImage);
+                if (pathImage != null)
+                {
+                    image.NameImage = pathImage.FileName;
+                    await SaveFile(subCategory, pathImage);
+                    _context.PathImages.Update(image);
+                }
 
                 _context.SubCategories.Update(subCategory);
-                _context.PathImages.Update(image);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));

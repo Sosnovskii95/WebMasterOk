@@ -94,11 +94,16 @@ namespace WebMasterOk.Controllers.Manager
             if (ModelState.IsValid)
             {
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(c => c.CategoryId == category.Id);
-                image.NameImage = pathImage.FileName;
 
-                await SaveFile(category, pathImage);
+                if (pathImage != null)
+                {
+                    image.NameImage = pathImage.FileName;
 
-                _context.PathImages.Update(image);
+                    await SaveFile(category, pathImage);
+
+                    _context.PathImages.Update(image);
+                }
+
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
 

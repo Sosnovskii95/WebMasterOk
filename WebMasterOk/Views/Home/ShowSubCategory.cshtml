@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.SubCategory>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.SubCategory>
 @using WebMasterOk.Models.CodeFirst;
 @using System.Web;
 
@@ -6,6 +9,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
+<div class="row">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">@Html.ActionLink("Товары", "Index")</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
 <div class="container-fluid">
     <div class="row">
@@ -28,4 +40,10 @@
             </div>
         </div>
     </div>
+</div>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action("ShowSubCategory", new
+{
+    page = page
+}), Bootstrap4PagedListRenderOptions.Default)
 </div>

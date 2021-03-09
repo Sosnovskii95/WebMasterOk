@@ -105,10 +105,13 @@ namespace WebMasterOk.Controllers.Admin
             if (ModelState.IsValid)
             { 
                 PathImage image = await _context.PathImages.FirstOrDefaultAsync(p => p.ProductId == product.Id);
-                image.NameImage = pathImage.FileName;
-                await SaveFile(product, pathImage);
+                if (pathImage != null)
+                {
+                    image.NameImage = pathImage.FileName;
+                    await SaveFile(product, pathImage);
 
-                _context.PathImages.Update(image);
+                    _context.PathImages.Update(image);
+                }
                 _context.Products.Update(product);
                 await _context.SaveChangesAsync();
 

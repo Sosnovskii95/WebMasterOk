@@ -1,9 +1,13 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.Product>
 @using WebMasterOk.Models.CodeFirst;
 @using System.Web;
 @{
     ViewData["Title"] = "ShowSearch";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
 }
 
 <h4>Результаты поиска</h4>
@@ -12,31 +16,53 @@
     <div class="row">
         <div class="col">
             <div class="row">
-                @foreach (Product item in Model)
-                {
-                    <div class="col-md-3 pb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id=item.Id, typeObject="product"})" />
-                            <div class="card-body">
-                                <h5 class="card-title">@Html.ActionLink(item.TitleProduct, "Details", new { item.Id })</h5>
-                                <p class="card-text">@Html.DisplayFor(modelitem => item.DescriptionProduct)</p>
-                            </div>
-                            <div class="card-footer">
-                                @Html.DisplayFor(modelitem => item.Price)
-                                <div class="card-text text-md-right">
-                                    @using (Html.BeginForm("AddToCart", "Cart"))
-                                    {
-                                        @Html.Hidden("productId", item.Id)
-                                        @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString)
-                                        <input type="submit" class="btn btn-success" value="Добавить в корзину" />
-                                    }
+                @{
+                    if (0 < Model.Count)
+                    {
+                        foreach (Product item in Model)
+                        {
+                            <div class="col-md-3 pb-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id = item.Id, typeObject = "product" })" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Html.ActionLink(item.TitleProduct, "Details", new { item.Id })</h5>
+                                        <p class="card-text">@Html.DisplayFor(modelitem => item.DescriptionProduct)</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        @Html.DisplayFor(modelitem => item.Price)
+                                        <div class="card-text text-md-right">
+                                            @using (Html.BeginForm("AddToCart", "Cart"))
+                                            {
+                                                @Html.Hidden("productId", item.Id)
+                                                @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString)
+                                                <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                                            }
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-
+                        }
+                    }
+                    else
+                    {
+                        <div>
+                            По вашему запросу ничего не найдено
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>
     </div>
 </div>
+@{
+    if (0 < Model.Count)
+    {
+        <div class="container">
+            @Html.PagedListPager(Model, page => Url.Action("ShowSearch", new
+        {
+            page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+        </div>
+    }
+}

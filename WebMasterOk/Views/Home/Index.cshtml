@@ -42,7 +42,7 @@
             <div class="row">
                 @foreach (Category item in Model)
                 {
-                    <div class="col-md-4 pb-3">
+                    <div class="col-md-3 pb-4">
                         <div class="card">
                             <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id=item.Id, typeObject="category"})" />
                             <div class="card-body">

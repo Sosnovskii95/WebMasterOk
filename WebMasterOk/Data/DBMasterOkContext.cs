@@ -68,23 +68,25 @@ namespace WebMasterOk.Data
             User adminUser = new User { Id = 1, LoginUser = adminEmail, PasswordUser = adminPassword, RoleId = adminRole.Id, StaffId = staffAdmin.Id };
             User userUser = new User { Id = 2, LoginUser = userEmail, PasswordUser = userPassword, RoleId = userRole.Id, StaffId = staffUser.Id };
 
-            Category categoryTest1 = new Category { Id = 1, TitleCategory = "Тестовая категория 1", DescriptionCategory = "1" };
-            Category categoryTest2 = new Category { Id = 2, TitleCategory = "Тестовая категория 2", DescriptionCategory = "2" };
+            Category izmer = new Category { Id = 1, TitleCategory = "Измерительный инструмент", DescriptionCategory = "Измерительный инструмент" };
+            Category elektro = new Category { Id = 2, TitleCategory = "Электроинструмент", DescriptionCategory = "Электроинструмент" };
+            Category sant = new Category { Id = 3, TitleCategory = "Сантехника", DescriptionCategory = "Сантехника" };
 
-            SubCategory subCategoryTest1 = new SubCategory { Id = 1, TitleSubCategory = "Тестовая подкатегория 1", CategoryId = categoryTest1.Id, DescriptionSubCategory = "1" };
-            SubCategory subCategoryTest2 = new SubCategory { Id = 2, TitleSubCategory = "Тестовая подкатегория 2", CategoryId = categoryTest2.Id, DescriptionSubCategory = "2" };
+            SubCategory subCategoryIzmer1 = new SubCategory { Id = 1, TitleSubCategory = "Линейки", CategoryId = izmer.Id, DescriptionSubCategory = "1" };
+            SubCategory subCategoryIzmer2 = new SubCategory { Id = 2, TitleSubCategory = "Уровни", CategoryId = izmer.Id, DescriptionSubCategory = "2" };
+            SubCategory subCategoryIzmer3 = new SubCategory { Id = 3, TitleSubCategory = "Нивелиры лазерные", CategoryId = izmer.Id, DescriptionSubCategory = "3" };
 
-            Product productTest1 = new Product { Id = 1, TitleProduct = "Тестовый продукт категории 1", Price = 1230, SubCategoryId = subCategoryTest1.Id, DescriptionProduct = "1" };
-            Product productTest2 = new Product { Id = 2, TitleProduct = "Тестовый продукт категории 1", Price = 1200, SubCategoryId = subCategoryTest1.Id, DescriptionProduct = "1" };
-            Product productTest3 = new Product { Id = 3, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
-            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
-            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryTest2.Id, DescriptionProduct = "2" };
+            Product productTest1 = new Product { Id = 1, TitleProduct = "Линейка измерительная 300", Price = 1230, SubCategoryId = subCategoryIzmer1.Id, DescriptionProduct = "1" };
+            Product productTest2 = new Product { Id = 2, TitleProduct = "Линейка измерительная 500", Price = 1200, SubCategoryId = subCategoryIzmer1.Id, DescriptionProduct = "1" };
+            Product productTest3 = new Product { Id = 3, TitleProduct = "Линейка измерительная 1000", Price = 1200, SubCategoryId = subCategoryIzmer1.Id, DescriptionProduct = "1" };
+            Product productTest4 = new Product { Id = 4, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryIzmer2.Id, DescriptionProduct = "2" };
+            Product productTest5 = new Product { Id = 5, TitleProduct = "Тестовый продукт категории 2", Price = 1200, SubCategoryId = subCategoryIzmer2.Id, DescriptionProduct = "2" };
 
-            PathImage pathImagesTest1 = new PathImage { Id = 1, NameImage = "esteamerby.png", ProductId = productTest1.Id, CategoryId = categoryTest1.Id, SubCategoryId = subCategoryTest1.Id, Slider = false, TypeImage = "image/png" };
-            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest2.Id, Slider = false, TypeImage = "image/png" };
-            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamerby.png", ProductId = productTest3.Id, CategoryId = categoryTest1.Id, Slider = false, TypeImage = "image/png" };
-            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamerby.png", ProductId = productTest4.Id, CategoryId = categoryTest2.Id, SubCategoryId = subCategoryTest1.Id, Slider = false, TypeImage = "image/png" };
-            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamerby.png", ProductId = productTest5.Id, CategoryId = categoryTest1.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesIzmer1 = new PathImage { Id = 1, NameImage = "izmer.jpg", ProductId = productTest1.Id, CategoryId = izmer.Id, SubCategoryId = subCategoryIzmer1.Id, Slider = false, TypeImage = "image/jpeg" };
+            PathImage pathImagesTest2 = new PathImage { Id = 2, NameImage = "esteamerby.png", ProductId = productTest2.Id, CategoryId = elektro.Id, SubCategoryId = subCategoryIzmer2.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest3 = new PathImage { Id = 3, NameImage = "esteamerby.png", ProductId = productTest3.Id, CategoryId = izmer.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest4 = new PathImage { Id = 4, NameImage = "esteamerby.png", ProductId = productTest4.Id, CategoryId = elektro.Id, SubCategoryId = subCategoryIzmer1.Id, Slider = false, TypeImage = "image/png" };
+            PathImage pathImagesTest5 = new PathImage { Id = 5, NameImage = "esteamerby.png", ProductId = productTest5.Id, CategoryId = izmer.Id, Slider = false, TypeImage = "image/png" };
 
             PathImage sliderTest1 = new PathImage { Id = 6, ProductId = null, NameImage = "1.jpg", Slider = true, TypeImage = "image/jpeg" };
             PathImage sliderTest2 = new PathImage { Id = 7, ProductId = null, NameImage = "2.jpg", Slider = true, TypeImage = "image/jpeg" };
@@ -103,9 +105,9 @@ namespace WebMasterOk.Data
             modelBuilder.Entity<Staff>().HasData(new Staff[] { staffAdmin, staffUser });
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser, userUser });
-            modelBuilder.Entity<Category>().HasData(new Category[] { categoryTest1, categoryTest2 });
-            modelBuilder.Entity<SubCategory>().HasData(new SubCategory[] { subCategoryTest1, subCategoryTest2 });
-            modelBuilder.Entity<PathImage>().HasData(new PathImage[] { pathImagesTest1, pathImagesTest2, pathImagesTest3, pathImagesTest4, pathImagesTest5, sliderTest1, sliderTest2 });
+            modelBuilder.Entity<Category>().HasData(new Category[] { izmer, elektro });
+            modelBuilder.Entity<SubCategory>().HasData(new SubCategory[] { subCategoryIzmer1, subCategoryIzmer2, subCategoryIzmer3 });
+            modelBuilder.Entity<PathImage>().HasData(new PathImage[] { pathImagesIzmer1, pathImagesTest2, pathImagesTest3, pathImagesTest4, pathImagesTest5, sliderTest1, sliderTest2 });
             modelBuilder.Entity<Product>().HasData(new Product[] { productTest1, productTest2, productTest3, productTest4, productTest5 });
             modelBuilder.Entity<Client>().HasData(new Client[] { client });
             modelBuilder.Entity<PayMethod>().HasData(new PayMethod[] { payMethodTest1, payMethodTest2, payMethodTest3 });

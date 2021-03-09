@@ -6,13 +6,27 @@
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
 
+<div class="row">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">@Html.ActionLink("Товары", "Index")</li>
+                <li class="breadcrumb-item">
+                    @Html.ActionLink(Model.SubCategory.Category.TitleCategory, "ShowSubCategory", new { idCategory = Model.SubCategory.CategoryId })
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">@Html.ActionLink(Model.SubCategory.TitleSubCategory, "ShowProduct", new { idSubCategory = Model.SubCategory.Id })</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <img class="img-fluid float-left" src="@Url.Action("GetImage", "Home", new { id=Model.Id, typeObject="product"})" />
-            <span class="text-md-left">@Html.DisplayFor(model => model.TitleProduct)</span>
         </div>
-        <div class="col-md-3 border-left">
+        <div class="col-md-4 border-left">
+            <span class="text-md-left">@Html.DisplayFor(model => model.TitleProduct)</span>
             @if (Model.Stores != null)
             {
                 <p class="text">В наличии: @Html.DisplayFor(model => model.Stores.Quantity)</p>
@@ -24,7 +38,7 @@
             <span class="text-secondary">Код: @Html.DisplayFor(model => model.Id)</span>
             <span class="text">Стоимость: @Html.DisplayFor(model => model.Price)</span>
 
-            <div class="col border-top">
+            <div class="col border-top pb-4">
                 @using (Html.BeginForm("AddToCart", "Cart"))
                 {
                     @Html.Hidden("productId", Model.Id)
@@ -32,38 +46,29 @@
                     <input type="submit" class="btn btn-success" value="Добавить в корзину" />
                 }
             </div>
+            <span class="text">
+                @Html.DisplayNameFor(model => model.DescriptionProduct)
+                @Html.DisplayFor(model => model.DescriptionProduct)
+            </span>
+
+            <span class="text">
+                @Html.DisplayNameFor(model => model.Price)
+
+                @Html.DisplayFor(model => model.Price)
+            </span>
+
+            <span class="text">
+                @Html.DisplayNameFor(model => model.Warranty)
+
+                @Html.DisplayFor(model => model.Warranty)
+            </span>
+
+            <span class="text">
+                @Html.DisplayNameFor(model => model.SubCategory)
+
+                @Html.DisplayFor(model => model.SubCategory.Id)
+            </span>
+
         </div>
     </div>
-
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescriptionProduct)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescriptionProduct)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Warranty)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Warranty)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SubCategory.Id)
-        </dd>
-    </dl>
-
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

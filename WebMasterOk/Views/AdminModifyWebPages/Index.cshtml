@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.PathImage>
+@using WebMasterOk.Models.CodeFirst;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<h4>PathImage</h4>
+<hr />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                @foreach (PathImage item in Model)
+                {
+                    <div class="col-md-3 pb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="@Url.Action("GetImage", "AdminModifyWebPages", new { id = item.Id})" />
+                            <div class="card-footer">
+                                <div class="card-text text-md-right">
+                                    @using (Html.BeginForm("DeleteImage", "AdminModifyWebPages"))
+                                    {
+                                        @Html.Hidden("id", item.Id)
+                                        <input type="submit" class="btn btn-danger" value="Удалить" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-md-3 pb-4">
+                    <div class="card">
+                        <div class="card-footer">
+                            <div class="card-text text-md-right">
+                                @using (Html.BeginForm("AddImage", "AdminModifyWebPages", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div style="position:relative;">
+                                        Выберите файл
+                                        <a class="btn" href="javascript:;">
+                                            <input type="file" name="PathImage" size="40"
+                                                   style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                                                   onchange="$(" #upload-file-info").html($(this).val());">
+                                        </a>
+                                        <span class="label label-info" id="upload-file-info"></span>
+                                    </div>
+                                    <input type="submit" class="btn btn-success" value="Добавить" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebMasterOk.Models.CodeFirst.Product>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebMasterOk.Models.CodeFirst.Product>
 @using WebMasterOk.Models.CodeFirst;
 @using System.Web;
 
@@ -6,6 +9,39 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_ClientLayout.cshtml";
 }
+
+<div class="row">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">@Html.ActionLink("Товары", "Index")</li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    @{ SubCategory subCategory = ViewBag.SubCategory;
+                        @Html.ActionLink(subCategory.Category.TitleCategory, "ShowSubCategory", new { idCategory = subCategory.CategoryId })}
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <form action="/Home/ShowProduct">
+            @Html.Hidden("page", ViewData["page"])
+            @Html.Hidden("idSubCategory", ViewData["idSubCategory"])
+            <div class="row">
+                <div class="col-md-5">
+                    <span class="badge bg-light">Сортировка:</span>@Html.DropDownList("sorted", ViewBag.Sorted as SelectList)
+                </div>
+                <div class="col-md-5">
+                    <span class="badge bg-light">Товаров на странице:</span>@Html.DropDownList("sizes", ViewBag.Sizes as SelectList)
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Сортировать" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="container-fluid">
     <div class="row">
@@ -18,11 +54,10 @@
                             <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { id=item.Id, typeObject="product"})" />
                             <div class="card-body">
                                 <h5 class="card-title">@Html.ActionLink(item.TitleProduct, "Details", new { item.Id })</h5>
-                                <p class="card-text">@Html.DisplayFor(modelitem => item.DescriptionProduct)</p>
                             </div>
                             <div class="card-footer">
                                 @Html.DisplayFor(modelitem => item.Price)
-                                <div class="card-text text-md-right">
+                                <div class="card-text text-md-center">
                                     @using (Html.BeginForm("AddToCart", "Cart"))
                                     {
                                         @Html.Hidden("productId", item.Id)
@@ -38,4 +73,10 @@
             </div>
         </div>
     </div>
+</div>
+<div class="container">
+    @Html.PagedListPager(Model, page => Url.Action("ShowSubCategory", new
+{
+    page = page
+}), Bootstrap4PagedListRenderOptions.Default)
 </div>

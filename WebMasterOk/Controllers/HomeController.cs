@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Security.Claims;
+using X.PagedList;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebMasterOk.Controllers
 {
@@ -30,7 +32,6 @@ namespace WebMasterOk.Controllers
 
         }
 
-        //[Authorize]
         public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories.Include(s => s.SubCategories).Include(p => p.PathImages).ToListAsync();
@@ -68,8 +69,8 @@ namespace WebMasterOk.Controllers
                 }
                 else if (typeObject.Equals("maps"))
                 {
-                    image = new PathImage { NameImage = "maps.png" };
-                    currentDirectory = "~/Content/";
+                    image = new PathImage { NameImage = "maps.png", TypeImage = "image/png" };
+                    currentDirectory = "/Content/";
                 }
             }
             if (CheckFile(_appEnvironment.WebRootPath + currentDirectory, image.NameImage))
@@ -99,7 +100,7 @@ namespace WebMasterOk.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var product = await _context.Products.Include(s => s.Stores).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.Include(s => s.Stores).Include(s => s.SubCategory).ThenInclude(s => s.Category).FirstOrDefaultAsync(p => p.Id == id);
             if (product != null)
             {
                 return View(product);
@@ -109,31 +110,110 @@ namespace WebMasterOk.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ShowSubCategory(int? idCategory)
+        public async Task<IActionResult> ShowSubCategory(int? idCategory, int? page)
         {
-            var subCategories = await _context.SubCategories.Where(i => i.CategoryId == idCategory).Include(p => p.PathImages).ToListAsync();
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
 
-            return View(subCategories);
+            IQueryable<SubCategory> subCategories = _context.SubCategories;
+
+            subCategories = subCategories.Where(i => i.CategoryId == idCategory).Include(p => p.PathImages);
+
+            subCategories = subCategories.OrderBy(i => i.Id);
+
+            return View(await subCategories.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]
-        public async Task<IActionResult> ShowProduct(int? idSubCategory)
+        public async Task<IActionResult> ShowProduct(int? idSubCategory, int? page, int? sorted, int? sizes)
         {
-            var products = await _context.Products.Where(i => i.SubCategoryId == idSubCategory).Include(p => p.PathImages).ToListAsync();
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+            ViewData["page"] = pageNumber;
+            ViewData["idSubCategory"] = idSubCategory;
 
-            return View(products);
+            IQueryable<Product> products = _context.Products;
+
+            products = products.Where(i => i.SubCategoryId == idSubCategory).Include(p => p.PathImages);
+
+            ViewBag.SubCategory = await _context.SubCategories.Include(c => c.Category).FirstOrDefaultAsync(i => i.Id == idSubCategory);
+
+            List<SelectListItem> sortedItems = generateSort();
+
+            List<SelectListItem> sizeItems = generateSize();
+
+            if (sorted.HasValue)
+            {
+                if (sorted == 1)
+                {
+                    sortedItems[0].Selected = true;
+                    products = products.OrderBy(i => i.Id);
+                }
+                if (sorted == 2)
+                {
+                    sortedItems[1].Selected = true;
+                    products = products.OrderBy(p => p.Price);
+                }
+                if (sorted == 3)
+                {
+                    sortedItems[2].Selected = true;
+                    products = products.OrderByDescending(p => p.Price);
+                }
+            }
+
+            if (sizes.HasValue)
+            {
+                if (sizes == 1)
+                {
+                    sizeItems[0].Selected = true;
+                    pageSize = 20;
+                }
+                if (sizes == 2)
+                {
+                    sizeItems[1].Selected = true;
+                    pageSize = 40;
+                }
+            }
+
+            ViewBag.Sorted = new SelectList(sortedItems, "Value", "Text");
+            ViewBag.Sizes = new SelectList(sizeItems, "Value", "Text");
+
+            return View(await products.ToPagedListAsync(pageNumber, pageSize));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ShowSearch(string search)
+        private List<SelectListItem> generateSort()
         {
-            List<Product> listProduct = null;
+            List<SelectListItem> sortedItems = new List<SelectListItem>();
+            sortedItems.Add(new SelectListItem() { Text = "По порядку", Value = "1" });
+            sortedItems.Add(new SelectListItem() { Text = "По росту цены", Value = "2" });
+            sortedItems.Add(new SelectListItem() { Text = "По снижению цены", Value = "3" });
+
+            return sortedItems;
+        }
+
+        private List<SelectListItem> generateSize()
+        {
+            List<SelectListItem> sizeItems = new List<SelectListItem>();
+            sizeItems.Add(new SelectListItem() { Text = "20", Value = "1" });
+            sizeItems.Add(new SelectListItem() { Text = "40", Value = "2" });
+
+            return sizeItems;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowSearch(int? page, string search)
+        {
+            int pageNumber = (page ?? 1);
+            int pageSize = 20;
+
+            IQueryable<Product> products = _context.Products;
 
             if (!String.IsNullOrEmpty(search))
             {
-                listProduct = await _context.Products.Where(i => i.TitleProduct.Contains(search)).ToListAsync();
+                products = products.Where(s => s.TitleProduct.Contains(search) || s.DescriptionProduct.Contains(search));
             }
-            return View(listProduct);
+
+            return View(await products.ToPagedListAsync(pageNumber, pageSize));
         }
 
         [HttpGet]
